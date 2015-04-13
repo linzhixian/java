@@ -1,0 +1,258 @@
+package com.funugame.parkour.web;
+
+import java.util.Map;
+
+import com.funugame.parkour.api.daoentity.Notice;
+import com.funugame.parkour.api.daoentity.Sync;
+import com.funugame.parkour.api.daoentity.UserFeedBack;
+import com.funugame.parkour.api.daoentity.UserFriend;
+import com.funugame.parkour.api.daoentity.UserMessage;
+import com.funugame.parkour.api.daoentity.UserTestActivity;
+import com.funugame.parkour.api.jsonbeans.AddFriend;
+import com.funugame.parkour.api.jsonbeans.GameResult;
+import com.funugame.parkour.api.jsonbeans.Login;
+import com.funugame.parkour.api.jsonbeans.RechargeMoney;
+import com.funugame.parkour.api.jsonbeans.Uid;
+import com.funugame.parkour.api.jsonbeans.UidAndChapterId;
+import com.funugame.parkour.api.jsonbeans.UpdateRoleName;
+import com.lzx.framework.web.springjson.annotation.WebActionIngore;
+import com.lzx.framework.web.springjson.beans.AbstractRequestJson;
+
+public class RequestJson extends AbstractRequestJson {
+    private String sign;
+    private Sync sync;// 数据同步
+    private UserFeedBack userFeedBack;// 用户反馈
+    private UserFriend getRecommendFriendList; // 获取推荐好友列表
+    private UserMessage getUserMessageList; // 获取用户消息列表
+    private UserMessage deleteUserMessage;
+    private Notice getNoticeList; // 获取公告
+    private Uid getUserTestActivity; // 获取首测活动列表
+    private RechargeMoney rechargeMoney; // 充值金额
+    private Login login;// 登陆
+
+    private UpdateRoleName updateRoleName;// 更新角色名
+    private GameResult submitGameResult;// 提交比赛结果
+    private UidAndChapterId scoreRank;// 请求荣耀排行
+    private UidAndChapterId friendScoreRank;// 请求好友排行
+    private UidAndChapterId matchUserList;// 请求挑战进阶用户列表
+    private UidAndChapterId reGenerateMatchUserList;// 重新生成挑战进阶用户列表
+    private Map checkDataVersion;// 检查数据版本
+    private Map updateData;// 更新数据文件
+    private UserTestActivity updateUserTestActivity; // 领取活动
+    private Uid getAchievements;
+    private Uid getRankAward;
+    private AddFriend addFriend;
+    
+    
+    
+    private String source;
+
+    private Integer uid;
+
+    private RequestJson value;
+
+
+    public RequestJson getValue() {
+	return value;
+    }
+
+    public void setValue(RequestJson value) {
+	this.value = value;
+    }
+
+    @WebActionIngore
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public UpdateRoleName getUpdateRoleName() {
+	return updateRoleName;
+    }
+
+    public void setUpdateRoleName(UpdateRoleName updateRoleName) {
+	this.updateRoleName = updateRoleName;
+    }
+
+    public Login getLogin() {
+	return login;
+    }
+
+    public void setLogin(Login login) {
+	this.login = login;
+    }
+
+    // @WebActionNeedSign
+    public GameResult getSubmitGameResult() {
+	return submitGameResult;
+    }
+
+    public void setSubmitGameResult(GameResult submitGameResult) {
+	this.submitGameResult = submitGameResult;
+    }
+
+    public UidAndChapterId getScoreRank() {
+	return scoreRank;
+    }
+
+    public void setScoreRank(UidAndChapterId scoreRank) {
+	this.scoreRank = scoreRank;
+    }
+
+    public UidAndChapterId getFriendScoreRank() {
+	return friendScoreRank;
+    }
+
+    public void setFriendScoreRank(UidAndChapterId friendScoreRank) {
+	this.friendScoreRank = friendScoreRank;
+    }
+
+    // @WebActionNeedSign
+    public Sync getSync() {
+	return sync;
+    }
+
+    public void setSync(Sync sync) {
+	this.sync = sync;
+    }
+
+    public UserFeedBack getUserFeedBack() {
+	return userFeedBack;
+    }
+
+    public void setUserFeedBack(UserFeedBack userFeedBack) {
+	this.userFeedBack = userFeedBack;
+    }
+
+    public UidAndChapterId getMatchUserList() {
+	return matchUserList;
+    }
+
+    public void setMatchUserList(UidAndChapterId matchUserList) {
+	this.matchUserList = matchUserList;
+    }
+
+    public UidAndChapterId getReGenerateMatchUserList() {
+	return reGenerateMatchUserList;
+    }
+
+    public void setReGenerateMatchUserList(UidAndChapterId reGenerateMatchUserList) {
+	this.reGenerateMatchUserList = reGenerateMatchUserList;
+    }
+
+    public Map getCheckDataVersion() {
+	return checkDataVersion;
+    }
+
+    public void setCheckDataVersion(Map checkDataVersion) {
+	this.checkDataVersion = checkDataVersion;
+    }
+
+    public Map getUpdateData() {
+	return updateData;
+    }
+
+    public void setUpdateData(Map updateData) {
+	this.updateData = updateData;
+    }
+
+    public String getSign() {
+	return sign;
+    }
+
+    public void setSign(String sign) {
+	this.sign = sign;
+    }
+
+    @WebActionIngore
+    public String getSource() {
+	return source;
+    }
+
+    public void setSource(String source) {
+	this.source = source;
+    }
+
+    public Uid getGetAchievements() {
+	return getAchievements;
+    }
+
+    public void setGetAchievements(Uid getAchievements) {
+	this.getAchievements = getAchievements;
+    }
+
+    public UserFriend getGetRecommendFriendList() {
+	return getRecommendFriendList;
+    }
+
+    public void setGetRecommendFriendList(UserFriend getRecommendFriendList) {
+	this.getRecommendFriendList = getRecommendFriendList;
+    }
+
+    public UserMessage getGetUserMessageList() {
+	return getUserMessageList;
+    }
+
+    public void setGetUserMessageList(UserMessage getUserMessageList) {
+	this.getUserMessageList = getUserMessageList;
+    }
+
+    public Notice getGetNoticeList() {
+	return getNoticeList;
+    }
+
+    public void setGetNoticeList(Notice getNoticeList) {
+	this.getNoticeList = getNoticeList;
+    }
+
+    public UserTestActivity getUpdateUserTestActivity() {
+	return updateUserTestActivity;
+    }
+
+    public void setUpdateUserTestActivity(UserTestActivity updateUserTestActivity) {
+	this.updateUserTestActivity = updateUserTestActivity;
+    }
+
+    public RechargeMoney getRechargeMoney() {
+	return rechargeMoney;
+    }
+
+    public void setRechargeMoney(RechargeMoney rechargeMoney) {
+	this.rechargeMoney = rechargeMoney;
+    }
+
+    public Uid getGetUserTestActivity() {
+	return getUserTestActivity;
+    }
+
+    public void setGetUserTestActivity(Uid getUserTestActivity) {
+	this.getUserTestActivity = getUserTestActivity;
+    }
+
+    public UserMessage getDeleteUserMessage() {
+	return deleteUserMessage;
+    }
+
+    public void setDeleteUserMessage(UserMessage deleteUserMessage) {
+	this.deleteUserMessage = deleteUserMessage;
+    }
+
+    public Uid getGetRankAward() {
+	return getRankAward;
+    }
+
+    public void setGetRankAward(Uid getRankAward) {
+	this.getRankAward = getRankAward;
+    }
+
+    public AddFriend getAddFriend() {
+	return addFriend;
+    }
+
+    public void setAddFriend(AddFriend addFriend) {
+	this.addFriend = addFriend;
+    }
+}

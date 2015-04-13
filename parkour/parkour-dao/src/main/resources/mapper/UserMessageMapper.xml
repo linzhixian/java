@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserMessageMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" readOnly="true" />
+
+
+
+	<select id="selectMessageList" parameterType="int" resultType="UserMessage">
+		select * from user_message
+		<where>
+			uid=#{uid} 
+			<if test="type!=0"> and type=#{type}</if>
+			  ORDER BY messagetime desc
+		</where>
+	</select>
+	
+	<insert id="insertMessage" parameterType="UserMessage">
+		INSERT INTO
+		user_message(uid,from_uid,type,content,isread,scenerank)
+		values(#{uid},#{from_uid},#{type},#{content},#{isread},#{scenerank})
+	</insert>
+	
+	<update id="readUserMessage" parameterType="UserMessage">
+
+	update user_message set isread=1 where uid=#{uid} and from_uid=#{from_uid} and type=#{type}
+	
+	</update>
+	
+	<delete id="deleteMessage"  parameterType="hashmap"  >
+		delete from user_message WHERE id=#{id} and uid=#{uid} 
+	</delete>
+
+	<delete id="deleteMessageList"  parameterType="java.util.List">
+		delete from user_message WHERE id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>

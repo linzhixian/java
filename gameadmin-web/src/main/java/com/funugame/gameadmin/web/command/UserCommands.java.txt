@@ -1,0 +1,95 @@
+package com.funugame.gameadmin.web.command;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.gameadmin.web.gameadmin.DataGridResult;
+import com.funugame.gameadmin.web.jsonbeans.SealUser;
+import com.funugame.gameadmin.web.jsonbeans.User;
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserVary;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@WebCommand
+@Service
+@Lazy
+public class UserCommands {
+    @Autowired
+    private IUserService userService;
+
+    @WebAction(name = "userInfo")
+    public DataGridResult userInfo(UserInfo ui) {
+	DataGridResult r = new DataGridResult();
+	List<UserInfo> list = new ArrayList<UserInfo>();
+	List<User> userList = new ArrayList<User>();
+	try {
+	    if (ui.getRolename().equals("null")||ui.getRolename()=="null") {
+		ui.setRolename("");
+	    }else if (ui.getRolename().equals("")||ui.getRolename()=="") {
+		ui.setRolename(null);
+	    }
+	    ui.setDevicetype(ui.getGameid());
+	    list = userService.gameSelectUserInfoId(ui);
+	    for (int i = 0; i < list.size(); i++) {
+		User user = new User();
+		ui = new UserInfo();
+		ui = list.get(i);
+		UserVary uv = userService.selectIdList(ui.getId());
+		org.apache.commons.beanutils.PropertyUtils.copyProperties(user, ui);
+		org.apache.commons.beanutils.PropertyUtils.copyProperties(user, uv);
+		userList.add(user);
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	r = new DataGridResult(list.size(), userList);
+	if (userList.size() > 0) {
+	    r.setCode(ResponseBase.SUCCESS);
+	} else if (userList.size() <= 0) {
+	    r.setCode(ResponseBase.EXIST);
+	}
+	return r;
+    }
+    
+    @WebAction(name = "sealUser")
+    public DataGridResult sealUser(SealUser ui) {
+	DataGridResult r = new DataGridResult();
+	Boolean bl=false;
+	Integer daynum=ui.getSealnum();
+	Calendar c = Calendar.getInstance();
+        c.setTime(new Date());   //设置当前日期
+        if (daynum==10) {
+            c.add(Calendar.YEAR, daynum);
+	}else {
+	    c.add(Calendar.DATE, daynum); //日期加
+	}
+        Date date = c.getTime(); //结果
+        ui.setSeal_time(date);
+        UserInfo uf=new UserInfo();
+        uf.setId(ui.getUid());
+        uf.setSeal(ui.getSealnum());
+        uf.setSeal_time(date);
+        try {
+            userService.updateUser(uf);
+            bl=true;
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+        r = new DataGridResult(1, ui);
+	if (bl) {
+	    r.setCode(ResponseBase.SUCCESS);
+	} else {
+	    r.setCode(ResponseBase.SEAL);
+	}
+	return r;
+    }
+}

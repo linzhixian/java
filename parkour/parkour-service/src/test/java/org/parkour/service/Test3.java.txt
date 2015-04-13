@@ -1,0 +1,25 @@
+package org.parkour.service;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mysql.jdbc.Driver;
+
+public class Test3 {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+	String url = "jdbc:mysql://117.135.135.149:3307/affix_xm?autoReconnect=true&characterEncoding=UTF-8&user=yangjing&password=yangjing159852";
+	Class<Driver> cClass = (Class<Driver>) Class.forName("com.mysql.jdbc.Driver");
+	Connection con = DriverManager.getConnection(url);
+	Statement stmt = con.createStatement();
+	String query = "select * from joye_users limit 10";
+	ResultSet rs = stmt.executeQuery(query);
+	while (rs.next()) {
+	    rs.getString(1);
+	    rs.getInt(2);
+	}
+    }
+}

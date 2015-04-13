@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc 
+     http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx 
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+     http://www.springframework.org/schema/cache
+     http://www.springframework.org/schema/cache/spring-cache-3.1.xsd">
+
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<import resource="classpath:parkour-dao-context.xml" />
+
+	<bean id="server" class="com.funugame.parkour.datacenter.DataCenterServer">
+		<property name="name" value="DataCenterServer" />
+		<property name="appRootDir" value=".\src\main\resources\" /><!-- .\src\main\resources\ ../conf/ -->
+		<property name="rmiHost" value="127.0.0.1" />
+	</bean>
+
+	<!-- Get the Datasource -->
+	<bean id="abstractDataSource" abstract="true" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}" />
+		<property name="minPoolSize" value="${jdbc.minPoolSize}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}" />
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}" />
+		<property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}" />
+		<property name="breakAfterAcquireFailure" value="${jdbc.breakAfterAcquireFailure}" />
+		<property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}" />
+		<property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}" />
+	</bean>
+
+	<bean id="routingDataSource" parent="abstractDataSource">
+		<property name="user" value="${jdbc.parkour.user}" />
+		<property name="password" value="${jdbc.parkour.password}" />
+		<property name="jdbcUrl" value="${jdbc.parkour.dataSource}" />
+	</bean>
+
+
+	<!-- enable component scanning (beware that this does not enable mapper scanning!) -->
+	<context:component-scan base-package="com.funugame.parkour.datacenter.service" />
+	<!-- enable autowire -->
+	<context:annotation-config />
+	<!-- enable transaction demarcation with annotations -->
+	<tx:annotation-driven />
+
+
+	<aop:aspectj-autoproxy />
+	<aop:config>
+		<aop:aspect id="myLogAspect" ref="aspectBean">
+			<!-- 配置com.lzq.spring.service包下所有类或接口的所有方法 -->
+			<aop:pointcut id="logService" expression="execution(public * com.funugame.parkour.api.*.*(..))&amp;&amp;!execution(* setSelf(..))" />
+			<aop:after-returning method="afterReturning" pointcut-ref="logService" returning="retVal" />
+			<aop:after-throwing method="afterThrowing" arg-names="ex" throwing="ex" pointcut-ref="logService" />
+		</aop:aspect>
+	</aop:config>
+	<bean id="aspectBean" class="com.funugame.parkour.datacenter.loggermain.LogAspect" />
+
+
+
+	<cache:annotation-driven cache-manager="cacheManager" />
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache" />
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:/ehcache.xml" />
+</beans>

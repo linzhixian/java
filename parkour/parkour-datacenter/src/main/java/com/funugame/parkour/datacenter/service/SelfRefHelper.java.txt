@@ -1,0 +1,32 @@
+package com.funugame.parkour.datacenter.service;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.INoticeService;
+import com.funugame.parkour.api.IRankService;
+import com.funugame.parkour.api.IRecommendFriendService;
+import com.funugame.parkour.api.ISyncService;
+
+@Service
+public class SelfRefHelper implements InitializingBean {
+
+    @Autowired
+    private IRankService rankService;
+    @Autowired
+    private IRecommendFriendService recommendFriendService;
+    @Autowired
+    private INoticeService noticeService;
+    @Autowired
+    private ISyncService syncService;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+	this.rankService.setSelf(rankService);
+	this.recommendFriendService.setSelf(recommendFriendService);
+	this.noticeService.setSelf(noticeService);
+	this.syncService.setSelf(syncService);
+    }
+
+}

@@ -1,0 +1,26 @@
+package com.funugame.parkour.api.jsonbeans;
+
+import java.io.Serializable;
+
+public class RechargeMoney implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer uid;
+    private Integer money;
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getMoney() {
+	return money;
+    }
+
+    public void setMoney(Integer money) {
+	this.money = money;
+    }
+
+}

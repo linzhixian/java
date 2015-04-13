@@ -1,0 +1,53 @@
+package com.funugame.parkour.datacenter.service.util;
+
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.funugame.parkour.api.configbeans.BaseConfig;
+import com.funugame.parkour.api.configbeans.ChapterConfig;
+import com.funugame.parkour.datacenter.service.config.RawFile;
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class ParserConfigUtilTest {
+    private IntHashMap<BaseConfig> all;
+
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void testParserConfigTxt() throws IllegalArgumentException, IllegalAccessException, IOException {
+
+	String confPath = "";
+	File f = new File("."+File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator+"data"+ File.separator + "chapter.txt");
+	RawFile configFile = new RawFile(f);
+	ParserConfigUtil.parserConfigTxt(configFile);
+	assertTrue(ChapterConfig.ALL.size() > 0);
+	Collection<BaseConfig> list = ChapterConfig.ALL.values();
+
+
+    }
+
+
+
+    public IntHashMap<BaseConfig> getAll() {
+	return all;
+    }
+
+    public void setAll(IntHashMap<BaseConfig> all) {
+	this.all = all;
+    }
+}

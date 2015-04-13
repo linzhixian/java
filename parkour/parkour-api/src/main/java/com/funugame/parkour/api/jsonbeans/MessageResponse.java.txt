@@ -1,0 +1,18 @@
+package com.funugame.parkour.api.jsonbeans;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserMessage;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public class MessageResponse extends ResponseBase{
+    private static final long serialVersionUID = 1;
+    private List<UserMessage> userMessageList;
+    public List<UserMessage> getUserMessageList() {
+        return userMessageList;
+    }
+    public void setUserMessageList(List<UserMessage> userMessageList) {
+        this.userMessageList = userMessageList;
+    }
+    
+}

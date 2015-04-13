@@ -1,0 +1,37 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class BestScoreOne implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private Integer uid;
+    private Integer score;
+    private Integer dist;
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getScore() {
+	return score;
+    }
+
+    public void setScore(Integer score) {
+	this.score = score;
+    }
+
+    public Integer getDist() {
+	return dist;
+    }
+
+    public void setDist(Integer dist) {
+	this.dist = dist;
+    }
+
+}

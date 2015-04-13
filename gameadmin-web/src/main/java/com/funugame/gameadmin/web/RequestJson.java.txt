@@ -1,0 +1,210 @@
+package com.funugame.gameadmin.web;
+
+import java.util.List;
+
+import com.funugame.gameadmin.web.daoentity.AdminUser;
+import com.funugame.gameadmin.web.jsonbeans.CheckLogin;
+import com.funugame.gameadmin.web.jsonbeans.FeedBackQuery;
+import com.funugame.gameadmin.web.jsonbeans.FeedBackUpdate;
+import com.funugame.gameadmin.web.jsonbeans.ID;
+import com.funugame.gameadmin.web.jsonbeans.SealUser;
+import com.funugame.gameadmin.web.jsonbeans.SendUserMessage;
+import com.funugame.parkour.api.daoentity.DiamondRecord;
+import com.funugame.parkour.api.daoentity.Notice;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserProp;
+import com.lzx.framework.web.springjson.beans.AbstractRequestJson;
+
+public class RequestJson extends AbstractRequestJson {
+
+    private FeedBackQuery queryFeedBack;
+
+    private UserInfo userInfo;
+
+    private SealUser sealUser;
+
+    private FeedBackUpdate feedBackUpdate;
+
+    private SendUserMessage sendUserMessage;
+
+    private List<UserProp> userPropAssign;
+
+    private Object queryManagerUser;
+
+    private ID deleteAdminUser;
+
+    private AdminUser addAdminUser;
+
+    private AdminUser updateAdminUser;
+    
+    private AdminUser modifyMenuTree;
+
+    private CheckLogin checkLogin;
+
+    private AdminUser login;
+
+    private Notice notice;
+
+    private Notice deleteNotice;
+
+    private Notice updateNotice;
+
+    private Notice insertNotice;
+
+    private Notice gameNotice;
+
+    private DiamondRecord diamondRecord;
+
+    public FeedBackQuery getQueryFeedBack() {
+	return queryFeedBack;
+    }
+
+    public void setQueryFeedBack(FeedBackQuery queryFeedBack) {
+	this.queryFeedBack = queryFeedBack;
+    }
+
+    public UserInfo getUserInfo() {
+	return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+	this.userInfo = userInfo;
+    }
+
+    public FeedBackUpdate getFeedBackUpdate() {
+	return feedBackUpdate;
+    }
+
+    public void setFeedBackUpdate(FeedBackUpdate feedBackUpdate) {
+	this.feedBackUpdate = feedBackUpdate;
+    }
+
+    public SendUserMessage getSendUserMessage() {
+	return sendUserMessage;
+    }
+
+    public void setSendUserMessage(SendUserMessage sendUserMessage) {
+	this.sendUserMessage = sendUserMessage;
+    }
+
+    public Object getQueryManagerUser() {
+	return queryManagerUser;
+    }
+
+    public void setQueryManagerUser(Object queryManagerUser) {
+	this.queryManagerUser = queryManagerUser;
+    }
+
+    public SealUser getSealUser() {
+	return sealUser;
+    }
+
+    public void setSealUser(SealUser sealUser) {
+	this.sealUser = sealUser;
+    }
+
+    public List<UserProp> getUserPropAssign() {
+	return userPropAssign;
+    }
+
+    public void setUserPropAssign(List<UserProp> userPropAssign) {
+	this.userPropAssign = userPropAssign;
+    }
+
+    public ID getDeleteAdminUser() {
+	return deleteAdminUser;
+    }
+
+    public void setDeleteAdminUser(ID deleteAdminUser) {
+	this.deleteAdminUser = deleteAdminUser;
+    }
+
+    public AdminUser getAddAdminUser() {
+	return addAdminUser;
+    }
+
+    public void setAddAdminUser(AdminUser addAdminUser) {
+	this.addAdminUser = addAdminUser;
+    }
+
+    public AdminUser getUpdateAdminUser() {
+	return updateAdminUser;
+    }
+
+    public void setUpdateAdminUser(AdminUser updateAdminUser) {
+	this.updateAdminUser = updateAdminUser;
+    }
+
+    public CheckLogin getCheckLogin() {
+	return checkLogin;
+    }
+
+    public void setCheckLogin(CheckLogin checkLogin) {
+	this.checkLogin = checkLogin;
+    }
+
+    public AdminUser getLogin() {
+	return login;
+    }
+
+    public void setLogin(AdminUser login) {
+	this.login = login;
+    }
+
+    public Notice getNotice() {
+	return notice;
+    }
+
+    public void setNotice(Notice notice) {
+	this.notice = notice;
+    }
+
+    public Notice getDeleteNotice() {
+	return deleteNotice;
+    }
+
+    public void setDeleteNotice(Notice deleteNotice) {
+	this.deleteNotice = deleteNotice;
+    }
+
+    public Notice getUpdateNotice() {
+	return updateNotice;
+    }
+
+    public void setUpdateNotice(Notice updateNotice) {
+	this.updateNotice = updateNotice;
+    }
+
+    public Notice getInsertNotice() {
+	return insertNotice;
+    }
+
+    public void setInsertNotice(Notice insertNotice) {
+	this.insertNotice = insertNotice;
+    }
+
+    public Notice getGameNotice() {
+	return gameNotice;
+    }
+
+    public void setGameNotice(Notice gameNotice) {
+	this.gameNotice = gameNotice;
+    }
+
+    public DiamondRecord getDiamondRecord() {
+	return diamondRecord;
+    }
+
+    public void setDiamondRecord(DiamondRecord diamondRecord) {
+	this.diamondRecord = diamondRecord;
+    }
+
+    public AdminUser getModifyMenuTree() {
+        return modifyMenuTree;
+    }
+
+    public void setModifyMenuTree(AdminUser modifyMenuTree) {
+        this.modifyMenuTree = modifyMenuTree;
+    }
+
+}

@@ -1,0 +1,183 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class BestScore implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private Integer uid;
+    private Integer score1;
+    private Integer score2;
+    private Integer score3;
+    private Integer score4;
+
+    private Integer weekscore1;
+    private Integer weekscore2;
+    private Integer weekscore3;
+    private Integer weekscore4;
+
+    private Integer dist1;
+    private Integer dist2;
+    private Integer dist3;
+    private Integer dist4;
+
+    private Integer totalscore;
+    private Integer rank1;
+    private Integer rank2;
+    private Integer rank3;
+    private Integer rank4;
+
+    public BestScore() {
+
+    }
+
+    public BestScore(int uid) {
+	this.uid = uid;
+    }
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getScore1() {
+	return score1;
+    }
+
+    public void setScore1(Integer score1) {
+	this.score1 = score1;
+    }
+
+    public Integer getScore2() {
+	return score2;
+    }
+
+    public void setScore2(Integer score2) {
+	this.score2 = score2;
+    }
+
+    public Integer getScore4() {
+	return score4;
+    }
+
+    public Integer getTotalscore() {
+	return totalscore;
+    }
+
+    public void setTotalscore(Integer totalscore) {
+	this.totalscore = totalscore;
+    }
+
+    public Integer getScore3() {
+	return score3;
+    }
+
+    public void setScore3(Integer score3) {
+	this.score3 = score3;
+    }
+
+    public void setScore4(Integer score4) {
+	this.score4 = score4;
+    }
+
+    public Integer getDist1() {
+	return dist1;
+    }
+
+    public void setDist1(Integer dist1) {
+	this.dist1 = dist1;
+    }
+
+    public Integer getDist2() {
+	return dist2;
+    }
+
+    public void setDist2(Integer dist2) {
+	this.dist2 = dist2;
+    }
+
+    public Integer getDist3() {
+	return dist3;
+    }
+
+    public void setDist3(Integer dist3) {
+	this.dist3 = dist3;
+    }
+
+    public Integer getDist4() {
+	return dist4;
+    }
+
+    public void setDist4(Integer dist4) {
+	this.dist4 = dist4;
+    }
+
+    public Integer getRank1() {
+	return rank1;
+    }
+
+    public void setRank1(Integer rank1) {
+	this.rank1 = rank1;
+    }
+
+    public Integer getRank2() {
+	return rank2;
+    }
+
+    public void setRank2(Integer rank2) {
+	this.rank2 = rank2;
+    }
+
+    public Integer getRank3() {
+	return rank3;
+    }
+
+    public void setRank3(Integer rank3) {
+	this.rank3 = rank3;
+    }
+
+    public Integer getRank4() {
+	return rank4;
+    }
+
+    public void setRank4(Integer rank4) {
+	this.rank4 = rank4;
+    }
+
+    public Integer getWeekscore1() {
+        return weekscore1;
+    }
+
+    public void setWeekscore1(Integer weekscore1) {
+        this.weekscore1 = weekscore1;
+    }
+
+    public Integer getWeekscore2() {
+        return weekscore2;
+    }
+
+    public void setWeekscore2(Integer weekscore2) {
+        this.weekscore2 = weekscore2;
+    }
+
+    public Integer getWeekscore3() {
+        return weekscore3;
+    }
+
+    public void setWeekscore3(Integer weekscore3) {
+        this.weekscore3 = weekscore3;
+    }
+
+    public Integer getWeekscore4() {
+        return weekscore4;
+    }
+
+    public void setWeekscore4(Integer weekscore4) {
+        this.weekscore4 = weekscore4;
+    }
+
+}

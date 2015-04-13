@@ -1,0 +1,74 @@
+package com.funugame.gameadmin.web.command;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.gameadmin.web.gameadmin.DataGridResult;
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.configbeans.AchievementConfig;
+import com.funugame.parkour.api.configbeans.PetConfig;
+import com.funugame.parkour.api.configbeans.PropsConfig;
+import com.funugame.parkour.api.configbeans.TechConfig;
+import com.funugame.parkour.api.daoentity.DiamondRecord;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@WebCommand
+@Service
+@Lazy
+public class DiamondRecordCommands {
+    @Autowired
+    private IUserService userService;
+
+    @WebAction(name = "diamondRecord")
+    public DataGridResult diamondRecord(DiamondRecord dr) {
+	DataGridResult r = new DataGridResult();
+	List<DiamondRecord> list = userService.selectDiamondRecordList(dr);
+	List<DiamondRecord> recordlist = new ArrayList<DiamondRecord>();
+	for (DiamondRecord dia : list) {
+	    if (dia.getCost() > 0) {
+		dia.setTransaction("获取");
+	    } else {
+		dia.setTransaction("消耗");
+	    }
+	    if (dia.getCode().equals("Recharge_by_MM")) {
+		dia.setCode("移动mm充值");
+	    } else if (dia.getCode().equals("Revivie")) {
+		dia.setCode("复活");
+	    } else if (dia.getCode().equals("Home_Pet_Level_Up")) {
+		dia.setCode("升级" +  "宠物");
+	    } else if (dia.getCode().equals("HonorReward")) {
+		dia.setCode("荣耀榜周奖励");
+	    } else if (dia.getCode().equals("Refresh_REQ_List")) {
+		dia.setCode("刷新竞技列表");
+	    } else if (dia.getCode().equals("Home_Prop_Up_Tec")) {
+		dia.setCode("升级" + "科技");
+	    } else if (dia.getCode().equals("Shop_Buy_Coin")) {
+		dia.setCode("商店购买金币");
+	    } else if (dia.getCode().equals("Shop_Buy_prop")) {
+		dia.setCode("商店购买" +  "道具");
+	    } else if (dia.getCode().equals("achievement_reward")) {
+		dia.setCode("成就" +  "奖励");
+	    } else if (dia.getCode().equals("Mian_Buy_Strength")) {
+		dia.setCode("购买体力");
+	    } else if (dia.getCode().equals("Daily_Reward")) {
+		dia.setCode("第" + dia.getPid() + "天奖励");
+	    }
+	    dia.setCost(Math.abs(dia.getCost()));
+	    recordlist.add(dia);
+	    dia = new DiamondRecord();
+	}
+	r = new DataGridResult(recordlist.size(), recordlist);
+	if (recordlist.size() > 0) {
+	    r.setCode(ResponseBase.SUCCESS);
+	} else if (recordlist.size() <= 0) {
+	    r.setCode(ResponseBase.EXIST);
+	}
+	return r;
+    }
+}

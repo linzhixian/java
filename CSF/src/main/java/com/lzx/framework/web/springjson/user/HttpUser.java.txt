@@ -1,0 +1,39 @@
+package com.lzx.framework.web.springjson.user;
+
+
+public class HttpUser {
+    private Permission permission;
+
+    private Object attachmentObject;
+    public Object getAttachmentObject() {
+        return attachmentObject;
+    }
+
+    public void setAttachmentObject(Object attachmentObject) {
+        this.attachmentObject = attachmentObject;
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
+
+    public boolean hasPermission(String name) {
+	
+	if(permission==null) return false;
+	return permission.hasPermission(name);
+    }
+
+    public void loadPermission(String[] permissionArray) {
+	for(String name:permissionArray) {
+	    this.permission.add(name);
+	}
+    }
+
+    public void setType(int type) {
+	permission.setType(type);
+    }
+}

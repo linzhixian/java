@@ -1,0 +1,32 @@
+package com.funugame.gameadmin.web.jsonbeans;
+
+public class FeedBackQuery extends AbstractRequest {
+    private String timeFrom;
+    private String timeTo;
+    private int reply;
+
+    public String getTimeFrom() {
+	return timeFrom;
+    }
+
+    public void setTimeFrom(String timeFrom) {
+	this.timeFrom = timeFrom;
+    }
+
+    public String getTimeTo() {
+	return timeTo;
+    }
+
+    public void setTimeTo(String timeTo) {
+	this.timeTo = timeTo;
+    }
+
+    public int getReply() {
+	return reply;
+    }
+
+    public void setReply(int reply) {
+	this.reply = reply;
+    }
+
+}

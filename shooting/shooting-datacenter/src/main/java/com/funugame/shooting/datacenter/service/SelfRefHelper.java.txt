@@ -1,0 +1,22 @@
+package com.funugame.shooting.datacenter.service;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.funugame.shooting.api.IShootingStatService;
+
+@Service
+public class SelfRefHelper implements InitializingBean {
+
+    @Autowired
+    private IShootingStatService shootingStatService;
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+	this.shootingStatService.setSelf(shootingStatService);
+
+    }
+
+}

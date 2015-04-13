@@ -1,0 +1,20 @@
+package com.funugame.parkour.api.jsonbeans;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.Notice;
+
+public class ScrollSystemNoticeListOne implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private List<Notice> scrollSystemNoticeListOne;
+
+    public List<Notice> getScrollSystemNoticeListOne() {
+	return scrollSystemNoticeListOne;
+    }
+
+    public void setScrollSystemNoticeListOne(List<Notice> scrollSystemNoticeListOne) {
+	this.scrollSystemNoticeListOne = scrollSystemNoticeListOne;
+    }
+
+}

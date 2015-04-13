@@ -1,0 +1,68 @@
+package com.funugame.parkour.api.configbeans;
+
+import java.util.Collection;
+
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class CupLevelConfig extends BaseConfig {
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    public static int MAX_LEVEL = -1;
+    private int cup;
+    private int gold;
+    private int piece;
+
+    public static CupLevelConfig getByLevel(int id) {
+	return (CupLevelConfig) ALL.get(id);
+    }
+
+    public static int getLevelByCup(int cup) {
+	if (MAX_LEVEL == -1) {
+	    initMaxLevel();
+	}
+	int level = 0;
+	for (int i = 0; i <= MAX_LEVEL; i++) {
+	    CupLevelConfig c = (CupLevelConfig) ALL.get(i);
+	    if (c != null) {
+		if (cup >= c.getCup()) {
+		    level = c.getId();
+		} else {
+		    break;
+		}
+	    }
+	}
+	return level;
+    }
+
+    private static void initMaxLevel() {
+	Collection<BaseConfig> cons = ALL.values();
+	for (BaseConfig b : cons) {
+	    if (b.getId() > MAX_LEVEL) {
+		MAX_LEVEL = b.getId();
+	    }
+	}
+    }
+
+    public int getCup() {
+	return cup;
+    }
+
+    public void setCup(int cup) {
+	this.cup = cup;
+    }
+
+    public int getGold() {
+	return gold;
+    }
+
+    public void setGold(int gold) {
+	this.gold = gold;
+    }
+
+    public int getPiece() {
+	return piece;
+    }
+
+    public void setPiece(int piece) {
+	this.piece = piece;
+    }
+}

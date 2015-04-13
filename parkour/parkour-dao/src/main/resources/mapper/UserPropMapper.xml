@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserPropMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" readOnly="true"/>
+
+	<insert id="insert" parameterType="UserProp">
+		INSERT INTO
+		user_prop(uid,id,num)
+		values(#{uid},#{id},#{num})
+	</insert>
+	<select id="selectPropList" parameterType="UserProp" resultType="UserProp">
+		select *
+		from user_prop 
+		<where>
+			uid=#{uid}
+			<if test="id!=null"> and id=#{id}</if>
+		</where>
+	</select>
+	
+	<select id="selectGamePropList" parameterType="UserProp" resultType="UserProp">
+		select *
+		from user_prop  
+		<where>
+		uid=#{uid} and id=#{id}
+		</where>
+	</select>
+	
+	<select id="selectList" parameterType="int" resultType="UserProp">
+		select *
+		from user_prop where uid=#{uid}
+	</select>
+
+	<update id="update" parameterType="UserProp">
+		UPDATE user_prop
+		<set>
+			 num = #{num} 
+		</set>
+		WHERE uid = #{uid} and id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="UserProp">
+		delete from user_prop WHERE uid = #{uid} and id=#{id}
+	</delete>
+
+</mapper>

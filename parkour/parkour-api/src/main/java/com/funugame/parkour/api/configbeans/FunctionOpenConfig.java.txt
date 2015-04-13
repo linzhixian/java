@@ -1,0 +1,30 @@
+package com.funugame.parkour.api.configbeans;
+
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class FunctionOpenConfig extends BaseConfig {
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    private String name;
+    private Boolean open;
+
+    public static FunctionOpenConfig getById(int id) {
+	return (FunctionOpenConfig) ALL.get(id);
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public boolean isOpen() {
+	return open;
+    }
+
+    public void setOpen(boolean open) {
+	this.open = open;
+    }
+
+}

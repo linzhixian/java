@@ -1,0 +1,116 @@
+package crackyst;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Date;
+
+/**
+ * 破解赛亿通对java的加密
+ * @author Administrator 2015年3月14日下午6:03:51
+ *
+ */
+public class Main {
+    
+    public static String[] INGORE={"target","."};
+    
+    public static void main(String[] args) throws Exception {
+	if (args == null || args.length == 0) {
+	    args = new String[2];
+	    args[0] = "D:\\work\\dev\\project\\crackyst";
+	    args[1] = "D:\\test";
+	}
+	if (args == null || args.length != 2) {
+	    System.err.println("use two param: input dir,outputdir");
+	    return;
+	}
+	String srcDir = args[0];
+	String destDir = args[1];
+	File srcFile = new File(srcDir);
+	if (srcFile.isDirectory()) {
+	    File destFile = new File(destDir + "/" + srcFile.getName());
+	    if (!destFile.exists()) {
+		log("create desdir:" + destFile.getAbsolutePath());
+		destFile.mkdirs();
+	    }
+	    File[] listFiles = srcFile.listFiles();
+	    for (File f : listFiles) {
+		if (f.isDirectory()) {
+		    copyDir(f, new File(destFile.getAbsolutePath() + "/" + f.getName()));
+		} else {
+		    copyFile(f, new File(destFile.getAbsolutePath() + "/" + getFileName(f.getName())));
+		}
+	    }
+	}
+    }
+
+    public static void log(String msg) {
+	System.out.println(msg);
+    }
+
+    private static void copyDir(File srcDir, File desDir) throws Exception {
+	if(srcDir.getName().startsWith(".")) {
+	    log("ignore Hidden Dir:" + srcDir.getAbsolutePath());
+	    return;
+	}
+	log("copyDir:From [" + srcDir.getAbsolutePath() + "] to [" + desDir.getAbsolutePath() + "]");
+	if (!desDir.exists()) {
+	    desDir.mkdir();
+	}
+	File[] listFiles = srcDir.listFiles();
+	for (File f : listFiles) {
+	    if (f.isDirectory()) {
+		copyDir(f, new File(desDir.getAbsolutePath() + "/" + f.getName()));
+	    } else {
+		copyFile(f, new File(desDir.getAbsolutePath() + "/" + getFileName(f.getName())));
+	    }
+	}
+    }
+
+    private static String getFileName(String name) {
+	if (name.endsWith("java")) {
+	    return name + ".txt";
+	}
+	return name;
+    }
+
+    public static long copyFile(File f1, File f2) throws Exception {
+	if(f1.getName().startsWith(".")) {
+	    log("ignore Hidden file:" + f1.getAbsolutePath());
+	    return 0;
+	}
+	String desPath=f2.getAbsolutePath();
+	log("copyFile ["+f1.getAbsolutePath()+"] to ["+f2.getAbsolutePath()+"]");
+	long time = new Date().getTime();
+	int length = 2097152;
+	FileInputStream in = new FileInputStream(f1);
+	FileOutputStream out = new FileOutputStream(f2);
+	FileChannel inC = in.getChannel();
+	FileChannel outC = out.getChannel();
+	ByteBuffer b = null;
+	while (true) {
+	    if (inC.position() == inC.size()) {
+		inC.close();
+		outC.close();
+		/*
+		 * if(desPath.endsWith(".java.txt")) { File f3=new
+		 * File(desPath); f3.renameTo(new File(desPath.substring(0,
+		 * desPath.indexOf(".txt")))); }
+		 */
+
+		return new Date().getTime() - time;
+	    }
+	    if ((inC.size() - inC.position()) < length) {
+		length = (int) (inC.size() - inC.position());
+	    } else
+		length = 2097152;
+	    b = ByteBuffer.allocateDirect(length);
+	    inC.read(b);
+	    b.flip();
+	    outC.write(b);
+	    outC.force(false);
+	}
+    }
+}

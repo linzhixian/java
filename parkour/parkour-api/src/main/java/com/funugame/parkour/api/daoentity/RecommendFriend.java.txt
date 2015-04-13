@@ -1,0 +1,62 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class RecommendFriend implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer uid;
+    private Integer age;
+    private String rolename;
+    private Integer cuplevel;
+    private String figureurl_qq;
+    private Integer totalscore;
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public String getRolename() {
+	return rolename;
+    }
+
+    public void setRolename(String rolename) {
+	this.rolename = rolename;
+    }
+
+    public Integer getAge() {
+	return age;
+    }
+
+    public void setAge(Integer age) {
+	this.age = age;
+    }
+
+    public Integer getCuplevel() {
+	return cuplevel;
+    }
+
+    public void setCuplevel(Integer cuplevel) {
+	this.cuplevel = cuplevel;
+    }
+
+    public String getFigureurl_qq() {
+	return figureurl_qq;
+    }
+
+    public void setFigureurl_qq(String figureurl_qq) {
+	this.figureurl_qq = figureurl_qq;
+    }
+
+    public Integer getTotalscore() {
+	return totalscore;
+    }
+
+    public void setTotalscore(Integer totalscore) {
+	this.totalscore = totalscore;
+    }
+
+}

@@ -1,0 +1,72 @@
+package com.funugame.shooting.web;
+
+import com.funugame.shooting.api.jsonbean.GameResult;
+import com.funugame.shooting.api.jsonbean.Cid;
+import com.lzx.framework.web.springjson.annotation.WebActionIngore;
+import com.lzx.framework.web.springjson.beans.AbstractRequestJson;
+
+public class RequestJson extends AbstractRequestJson {
+    private String sign;
+
+    private String source;
+
+    private Integer uid;
+
+    private RequestJson value;
+
+    private GameResult submitGameResult;
+    private Cid getTodayStat;
+    
+    public RequestJson getValue() {
+	return value;
+    }
+
+    public void setValue(RequestJson value) {
+	this.value = value;
+    }
+
+    @WebActionIngore
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public String getSign() {
+	return sign;
+    }
+
+    public void setSign(String sign) {
+	this.sign = sign;
+    }
+
+    @WebActionIngore
+    public String getSource() {
+	return source;
+    }
+
+    public void setSource(String source) {
+	this.source = source;
+    }
+
+    public GameResult getSubmitGameResult() {
+        return submitGameResult;
+    }
+
+    public void setSubmitGameResult(GameResult submitGameResult) {
+        this.submitGameResult = submitGameResult;
+    }
+
+    public Cid getGetTodayStat() {
+        return getTodayStat;
+    }
+
+    public void setGetTodayStat(Cid getTodayStat) {
+        this.getTodayStat = getTodayStat;
+    }
+
+
+
+}

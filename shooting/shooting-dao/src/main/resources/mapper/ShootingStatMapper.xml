@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.shooting.dao.ShootingStatMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="30" />
+
+
+	<insert id="insert" parameterType="ShootingStat">
+		INSERT INTO
+		shooting_stat(cid,sdate,wincount,failcount)
+		value(#{cid},#{sdate},#{wincount},#{failcount});
+
+	</insert>
+
+	<select id="selectOne" parameterType="ShootingStat" resultType="ShootingStat">
+		select *
+		from shooting_stat where cid=#{cid} and sdate=date(#{sdate});
+	</select>
+
+
+	<update id="addWinCount" parameterType="hashmap">
+		UPDATE shooting_stat set 
+		wincount=wincount+1
+		WHERE  cid=#{cid} and sdate=date(#{sdate})
+	</update>
+
+	<update id="addFailCount" parameterType="hashmap">
+		UPDATE shooting_stat set 
+		failcount=failcount+1
+		WHERE  cid=#{cid} and sdate=date(#{sdate})
+	</update>
+</mapper>

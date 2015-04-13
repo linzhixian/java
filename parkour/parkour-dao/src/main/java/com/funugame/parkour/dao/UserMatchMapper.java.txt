@@ -1,0 +1,25 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.funugame.parkour.api.daoentity.InsertMatchUser;
+import com.funugame.parkour.api.daoentity.MatchUser;
+
+public interface UserMatchMapper {
+    
+
+
+    public List<MatchUser> getMatchUserList(@Param("uid") Integer uid,@Param("chapterid") Integer chapterid);
+
+    public void insert(@Param("uid") Integer uid,@Param("chapterid") Integer chapterid,@Param("muid") Integer muid,@Param("mscore") Integer score,@Param("mdist") Integer dist);
+    public void insertUser(InsertMatchUser user);
+
+    
+    public void deleteList(@Param("uid") Integer uid,@Param("chapterid") Integer chapterid);
+
+    public int updateResult(@Param("uid") Integer uid,@Param("chapterid") Integer chapterid,@Param("muid") Integer muid,@Param("score") int score);
+    
+    public int getMUserScore(@Param("uid") Integer uid,@Param("chapterid") Integer chapterid,@Param("muid") Integer muid);
+}

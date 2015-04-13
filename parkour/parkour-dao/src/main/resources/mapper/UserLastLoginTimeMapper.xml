@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserLastLoginTimeMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" />
+	
+	<select id="selectList" parameterType="int" resultType="UserLastLoginTime">
+		select uid,logindaynum,lastlogintime,lastawardtime from user_lastlogintime where uid=#{uid}
+	</select>
+	<update id="update" parameterType="UserLastLoginTime">
+		UPDATE user_lastlogintime
+		set lastlogintime=now(),logincount=logincount+1,logindaynum=#{logindaynum} 
+		WHERE uid = #{uid}
+	</update>
+	<update id="updateAward" parameterType="UserLastLoginTime">
+		UPDATE user_lastlogintime
+		set  lastawardtime=now()
+		WHERE uid = #{uid}
+	</update>
+	<insert id="insert" parameterType="int">
+		INSERT INTO
+		user_lastlogintime(uid)
+		value(#{uid});
+
+	</insert>
+</mapper>

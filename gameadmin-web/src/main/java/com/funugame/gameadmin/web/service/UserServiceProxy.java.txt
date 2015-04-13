@@ -1,0 +1,13 @@
+package com.funugame.gameadmin.web.service;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IUserService;
+import com.lzx.framework.web.springjson.service.AbstractService;
+
+@Service
+@Lazy
+public class UserServiceProxy extends AbstractService<IUserService> {
+
+}

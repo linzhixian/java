@@ -1,0 +1,54 @@
+package com.funugame.parkour.web.command;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IConfigService;
+import com.funugame.parkour.api.beans.ClientConfig;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+
+@WebCommand
+@Service
+@Lazy
+public class ConfigCommands {
+    private int version;
+
+    private ClientConfig clientConfig;
+
+    @Autowired
+    private IConfigService configService;
+    
+    /**
+     * 获取最新配置文件版本号
+     * 
+     * @return
+     */
+    @WebAction(name = "checkDataVersion")
+    public Map<String, Object> checkVersion(Map checkDataVersion) {
+	int newVersion = configService.getVersion();
+	if (version != newVersion) {
+	    clientConfig = configService.getClientConfig();
+	    version = newVersion;
+	}
+	Map<String, Object> output = new HashMap<>(1);
+	output.put("version", version);
+	return output;
+    }
+
+    /**
+     * 获取配置文件
+     * 
+     * @return
+     */
+    @WebAction(name = "updateData")
+    public ClientConfig update(Map updateData) {
+	if (clientConfig == null)
+	    clientConfig = configService.getClientConfig();
+	return clientConfig;
+    }
+}

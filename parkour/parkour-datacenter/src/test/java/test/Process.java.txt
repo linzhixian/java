@@ -1,0 +1,19 @@
+package test;
+
+public class Process {
+    
+    public void process(Object a) {
+	if(a instanceof A) {
+	    this.process((A)a);
+	} else if(a instanceof B) {
+	    this.process((B)a);
+	}
+    }
+    public void process(A a) {
+	System.out.println("do a");
+    }
+
+    public void process(B b) {
+	System.out.println("do b");
+    }
+}

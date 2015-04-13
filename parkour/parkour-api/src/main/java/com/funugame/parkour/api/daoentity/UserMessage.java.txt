@@ -1,0 +1,75 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class UserMessage implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public static final int TYPE_SYS=0;//系统消息
+    public static final int TYPE_FRIEND=1;//好友消息
+    public static final int TYPE_FEEDBACK=2;//用户反馈消息
+    public static final int TYPE_SUBRANK=3;//荣耀子版消息
+    private Integer id;
+    private Integer uid;
+    private Integer type;
+    private String content;
+    private Integer from_uid;
+    private Integer isread;
+    private Integer scenerank;
+    
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getType() {
+	return type;
+    }
+
+    public void setType(Integer type) {
+	this.type = type;
+    }
+
+    public String getContent() {
+	return content;
+    }
+
+    public void setContent(String content) {
+	this.content = content;
+    }
+
+    public Integer getFrom_uid() {
+	return from_uid;
+    }
+
+    public void setFrom_uid(Integer from_uid) {
+	this.from_uid = from_uid;
+    }
+
+    public Integer getIsread() {
+	return isread;
+    }
+
+    public void setIsread(Integer isread) {
+	this.isread = isread;
+    }
+
+    public Integer getScenerank() {
+	return scenerank;
+    }
+
+    public void setScenerank(Integer scenerank) {
+	this.scenerank = scenerank;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+}

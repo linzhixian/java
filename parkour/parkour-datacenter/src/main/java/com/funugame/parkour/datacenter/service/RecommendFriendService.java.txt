@@ -1,0 +1,100 @@
+package com.funugame.parkour.datacenter.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IRecommendFriendService;
+import com.funugame.parkour.api.daoentity.RecommendFriend;
+import com.funugame.parkour.api.daoentity.UserFriend;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserVary;
+import com.funugame.parkour.dao.UserBestScoreMapper;
+import com.funugame.parkour.dao.UserFriendMapper;
+import com.funugame.parkour.dao.UserInfoMapper;
+import com.funugame.parkour.dao.UserVaryMapper;
+
+/*
+ * 推荐好友列表
+ */
+@Service("recommendFriendService_RMI")
+public class RecommendFriendService implements IRecommendFriendService {
+
+    private IRecommendFriendService self;
+    @Autowired
+    private UserFriendMapper userFriendMapper;
+    @Autowired
+    private UserVaryMapper userVaryMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private UserBestScoreMapper userBestScoreMapper;
+
+    @Cacheable(value = "recommendfriendlist", key = "#uid")
+    public List<RecommendFriend> getFuidlist(Integer uid) {
+	UserVary uv = new UserVary();
+	try {
+	    uv = userVaryMapper.selectOne(uid);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	List<UserFriend> li = new ArrayList<UserFriend>();
+	List<RecommendFriend> rfList = new ArrayList<RecommendFriend>();
+	if (uv == null) {
+	    return rfList;
+	} else {
+	    try {
+		li = userFriendMapper.recommendFriend(uv.getUid(), uv.getExp());
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	}
+	for (int i = 0; i < li.size(); i++) {
+	    UserFriend uf = li.get(i);
+	    Integer fuid = uf.getUid();
+	    RecommendFriend rf = new RecommendFriend();
+	    try {
+		rf = userFriendMapper.recommendFriendProperty(fuid);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	    rfList.add(rf);
+	}
+	return rfList;
+    }
+
+    @Override
+    public List<RecommendFriend> getRecommendFriendList(Integer uid) {
+	List<RecommendFriend> list = new ArrayList<RecommendFriend>();
+	List<Integer> recommendlist = new ArrayList<Integer>();
+	List<RecommendFriend> rflist = new ArrayList<RecommendFriend>();
+	int i = 0;
+	int num = 5;
+	list = self.getFuidlist(uid);
+	if (list.size() >= num) {
+	    num = 5;
+	} else if (list.size() < num && list.size() > 0) {
+	    num = list.size();
+	} else {
+	    num = 0;
+	}
+	while (i < num) {
+	    Random ran = new Random();
+	    RecommendFriend rf = list.get(ran.nextInt(list.size()));
+	    Integer fuid = rf.getUid();
+	    if (!recommendlist.contains(fuid)) {
+		i++;
+		rflist.add(rf);
+	    }
+	}
+	return rflist;
+    }
+
+    public void setSelf(IRecommendFriendService self) {
+	this.self = self;
+    }
+}

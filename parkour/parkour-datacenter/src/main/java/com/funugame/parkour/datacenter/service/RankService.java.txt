@@ -1,0 +1,86 @@
+package com.funugame.parkour.datacenter.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IRankService;
+import com.funugame.parkour.api.daoentity.ScoreRankUser;
+import com.funugame.parkour.api.jsonbeans.UidAndChapterId;
+import com.funugame.parkour.dao.UserBestScoreMapper;
+
+@Service("rankService_RMI")
+public class RankService implements IRankService {
+
+    private IRankService rankService;
+    /**
+     * 好友排行数量
+     */
+    public static int FRIEND_RANK_LIMIT = 10;
+    /**
+     * 场景排行数量
+     */
+    public static int RANK_LIMIT = 10;
+
+    @Autowired
+    private UserBestScoreMapper userBestScoreMapper;
+
+    @Cacheable(value = "topscoreranklist", key = "#chapterId")
+    @Override
+    public List<ScoreRankUser> getTopScoreRankList(int chapterId) {
+	List<ScoreRankUser> list = userBestScoreMapper.getRankList(getFieldNameByChapterId(chapterId), getDistFieldNameByChapterId(chapterId), RANK_LIMIT);
+	setCid(chapterId, list);
+	return list;
+
+    }
+
+    @Override
+    public int getUserBestScore(int uid, int chapterId) {
+	return userBestScoreMapper.getScore(uid, getFieldNameByChapterId(chapterId));
+    }
+
+    @Cacheable(value = "friendscoreranklist", key = "#request.getCacheKey()")
+    @Override
+    public List<ScoreRankUser> getFriendScoreRankList(UidAndChapterId request) {
+	List<ScoreRankUser> list = userBestScoreMapper.getFriendRankList(request.getUid(), getFieldNameByChapterId(request.getChapterid()),
+		getDistFieldNameByChapterId(request.getChapterid()), FRIEND_RANK_LIMIT);
+	setCid(request.getChapterid(), list);
+	return list;
+    }
+
+    public static String getFieldNameByChapterId(int chapterId) {
+	if (chapterId <= 0)
+	    return "totalscore";
+	else
+	    return "weekscore" + chapterId;
+    }
+
+    public static String getDistFieldNameByChapterId(int chapterId) {
+	if (chapterId <= 0)
+	    return "totaldist";
+	else
+	    return "dist" + chapterId;
+    }
+
+    @Override
+    public boolean clearRank(int uid) {
+	int update = userBestScoreMapper.clearRank(uid);
+	return update > 0;
+    }
+
+    private void setCid(int chapterId, List<ScoreRankUser> list) {
+	if (list != null) {
+	    for (ScoreRankUser u : list) {
+		u.setCid(chapterId);
+	    }
+	}
+    }
+
+    @Override
+    public void setSelf(IRankService rankService) {
+	this.rankService = rankService;
+    }
+
+}

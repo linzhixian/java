@@ -1,0 +1,81 @@
+package com.funugame.gameadmin.web.daoentity;
+
+import java.io.Serializable;
+
+import net.sf.json.JSONArray;
+
+public class AdminUser implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    private Integer id;
+
+    private String name;
+    private String password;
+    private int type;
+    private int createid;
+
+    private String permission;
+
+    private JSONArray permissionJson;
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
+    }
+
+    public int getType() {
+	return type;
+    }
+
+    public void setType(int type) {
+	this.type = type;
+    }
+
+    public Integer getId() {
+	return id;
+    }
+
+    public void setId(Integer id) {
+	this.id = id;
+    }
+
+    public String getPermission() {
+	return permission;
+    }
+
+    public void setPermission(String permission) {
+	this.permission = permission;
+	if (this.permission != null) {
+	    permissionJson=JSONArray.fromObject(permission);
+	} else{
+	    permissionJson=JSONArray.fromObject("[]");
+	}
+    }
+
+    public String[] getPermissionArray() {
+	String[] array=new String[permissionJson.size()];
+	permissionJson.toArray(array);
+	return array;
+    }
+
+    public int getCreateid() {
+        return createid;
+    }
+
+    public void setCreateid(int createid) {
+        this.createid = createid;
+    }
+
+}

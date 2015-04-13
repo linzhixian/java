@@ -1,0 +1,46 @@
+package com.funugame.parkour.api.beans;
+
+import java.io.Serializable;
+
+public class HonourRankUser implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    private int uid;
+    private int roleid;
+    private String rolename;
+    private int age;
+    private int honour;
+    
+    public int getUid() {
+        return uid;
+    }
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public int getHonour() {
+        return honour;
+    }
+    public void setHonour(int honour) {
+        this.honour = honour;
+    }
+    public int getRoleid() {
+        return roleid;
+    }
+    public void setRoleid(int roleid) {
+        this.roleid = roleid;
+    }
+    public String getRolename() {
+        return rolename;
+    }
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
+    }
+}

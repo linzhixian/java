@@ -1,0 +1,69 @@
+package com.funugame.parkour.api.daoentity;
+
+public class UserStat {
+    private Integer uid;
+    private Integer runcount;
+    private Integer challengecount;
+    private Integer getgold;//总活动金币数
+    private Integer bosscount;//boss战斗次数
+    private Integer rundis;//总跑距
+
+    private int usepropcount;
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public Integer getRuncount() {
+        return runcount;
+    }
+
+    public void setRuncount(int runcount) {
+        this.runcount = runcount;
+    }
+
+    public Integer getChallengecount() {
+        return challengecount;
+    }
+
+    public void setChallengecount(int challengecount) {
+        this.challengecount = challengecount;
+    }
+
+    public Integer getGetgold() {
+        return getgold;
+    }
+
+    public void setGetgold(int getgold) {
+        this.getgold = getgold;
+    }
+
+    public Integer getBosscount() {
+        return bosscount;
+    }
+
+    public void setBosscount(int bosscount) {
+        this.bosscount = bosscount;
+    }
+
+    public int getRundis() {
+        return rundis;
+    }
+
+    public void setRundis(int rundis) {
+        this.rundis = rundis;
+    }
+
+    public Integer getUsepropcount() {
+        return usepropcount;
+    }
+
+    public void setUsepropcount(int usepropcount) {
+        this.usepropcount = usepropcount;
+    }
+
+}

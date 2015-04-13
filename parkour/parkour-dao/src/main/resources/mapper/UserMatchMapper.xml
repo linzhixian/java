@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserMatchMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" readOnly="true"/>
+
+
+
+
+	<select id="getMatchUserList" parameterType="hashmap" resultType="MatchUser" statementType="STATEMENT">
+		select cid,muid as uid,rolename,figureurl_qq,mscore as
+		score,mdist as dist,age,cuplevel,updatetime,result from
+		user_match
+		where
+		uid=${uid} and cid=${chapterid} order by mscore desc
+	</select>
+
+	<insert id="insert" parameterType="hashmap">
+		INSERT INTO
+		user_match(uid,muid,cid,mscore,mdist)
+		value(#{uid},#{muid},#{chapterid},#{mscore},#{mdist})
+	</insert>
+	
+	<insert id="insertUser" parameterType="InsertMatchUser">
+		INSERT INTO
+		user_match(uid,muid,cid,mscore,mdist,rolename,figureurl_qq,age,cuplevel)
+		value(#{uid},#{muid},#{cid},#{mscore},#{mdist},#{rolename},#{figureurl_qq},#{age},#{cuplevel})
+	</insert>	
+	
+	<delete id="deleteList" parameterType="hashmap">
+		delete from user_match
+		<where>
+			uid=#{uid} and cid=#{chapterid}
+		</where>
+	</delete>
+
+	<update id="updateResult" parameterType="hashmap">
+		UPDATE user_match
+		<set>
+			result=(IF(#{score}>mscore,1,2))
+		</set>
+		<where>
+			uid = #{uid} and
+			cid=#{chapterid} and
+			muid=#{muid} and
+			mscore!=#{score} and
+			result!=1
+		</where>
+	</update>
+	<select id="getMUserScore" parameterType="hashmap" resultType="int">
+		select mscore from user_match
+		where
+		uid=#{uid} and cid=#{chapterid} and muid=#{muid}
+	</select>
+
+
+
+</mapper>

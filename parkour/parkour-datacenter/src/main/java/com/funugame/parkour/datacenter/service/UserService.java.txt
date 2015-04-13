@@ -1,0 +1,862 @@
+package com.funugame.parkour.datacenter.service;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.IUserTestActivityService;
+import com.funugame.parkour.api.beans.Platform;
+import com.funugame.parkour.api.configbeans.AchievementConfig;
+import com.funugame.parkour.api.configbeans.BaseConfig;
+import com.funugame.parkour.api.configbeans.ConfigConfig;
+import com.funugame.parkour.api.configbeans.DeviceTypeConfig;
+import com.funugame.parkour.api.configbeans.ExplevelConfig;
+import com.funugame.parkour.api.daoentity.BestScore;
+import com.funugame.parkour.api.daoentity.DiamondRecord;
+import com.funugame.parkour.api.daoentity.Notice;
+import com.funugame.parkour.api.daoentity.User;
+import com.funugame.parkour.api.daoentity.UserAchievement;
+import com.funugame.parkour.api.daoentity.UserFriend;
+import com.funugame.parkour.api.daoentity.UserFriendMatchCount;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserLastLoginTime;
+import com.funugame.parkour.api.daoentity.UserPet;
+import com.funugame.parkour.api.daoentity.UserPiece;
+import com.funugame.parkour.api.daoentity.UserProp;
+import com.funugame.parkour.api.daoentity.UserTech;
+import com.funugame.parkour.api.daoentity.UserVary;
+import com.funugame.parkour.api.jsonbeans.GameResult;
+import com.funugame.parkour.api.jsonbeans.Login;
+import com.funugame.parkour.api.jsonbeans.LoginResult;
+import com.funugame.parkour.api.jsonbeans.SubmitGameResultResponse;
+import com.funugame.parkour.dao.DiamondRecordMapper;
+import com.funugame.parkour.dao.NoticeMapper;
+import com.funugame.parkour.dao.StatMapper;
+import com.funugame.parkour.dao.UserAchievementMapper;
+import com.funugame.parkour.dao.UserBestScoreMapper;
+import com.funugame.parkour.dao.UserFriendMapper;
+import com.funugame.parkour.dao.UserFriendMatchCountMapper;
+import com.funugame.parkour.dao.UserInfoMapper;
+import com.funugame.parkour.dao.UserLastLoginTimeMapper;
+import com.funugame.parkour.dao.UserMatchMapper;
+import com.funugame.parkour.dao.UserPetMapper;
+import com.funugame.parkour.dao.UserPieceMapper;
+import com.funugame.parkour.dao.UserPropMapper;
+import com.funugame.parkour.dao.UserTechMapper;
+import com.funugame.parkour.dao.UserVaryMapper;
+import com.lzx.framework.utils.DateFormatUtil;
+import com.lzx.framework.utils.StringUtil;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@Service("userService_RMI")
+public class UserService implements IUserService {
+
+    protected static Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
+    private UserVaryMapper userVaryMapper;
+    @Autowired
+    private UserLastLoginTimeMapper userLastLoginTimeMapper;
+    @Autowired
+    private NoticeMapper proclamationMapper;
+
+    @Autowired
+    private UserPetMapper userPetMapper;
+
+    @Autowired
+    private UserPropMapper userPropMapper;
+    @Autowired
+    private UserTechMapper userTechMapper;
+
+    @Autowired
+    private UserBestScoreMapper chapterBestScoreMapper;
+
+    @Autowired
+    private UserAchievementMapper userAchievementMapper;
+
+    @Autowired
+    private UserPieceMapper userPieceMapper;
+
+    @Autowired
+    private UserMatchMapper userMatchMapper;
+
+    @Autowired
+    private UserFriendMatchCountMapper userFriendMatchCountMapper;
+    @Autowired
+    private UserFriendMapper userFriendMapper;
+    @Autowired
+    private IUserTestActivityService userTestActivityService;
+
+    @Autowired
+    StatMapper statMapper;
+    @Autowired
+    private DiamondRecordMapper diamondRecordMapper;
+
+    @Override
+    public LoginResult loginOrRegister(Login login) {
+	if (login.getType() == null)
+	    login.setType(0);
+	int loginType = login.getType();
+	switch (loginType) {
+	case Login.LOGIN_NORMAL:
+	    return loginNormal(login.getUid(), login.getPassword(), login.getUserAgent());
+	case Login.LOGIN_QQ:
+	    return loginQQ(login.getOpenid(), login.getFigureurl_qq(), login.getQqname(), login.getUserAgent());
+	}
+	return null;
+    }
+
+    private LoginResult loginQQ(String openid, String figureurl_qq, String qqname, String userAgent) {
+	User userInfo = null;
+	if (!StringUtil.isEmpty(openid)) {
+	    userInfo = getQQUser(openid);
+	    if (userInfo == null) {
+		userInfo = newQQUser(openid, figureurl_qq, qqname, userAgent);
+	    }
+	}
+	return afterLogin(userInfo);
+    }
+
+    private LoginResult loginNormal(Integer uid, String password, String userAgent) {
+	User userInfo = null;
+	if (uid != null && !StringUtil.isEmpty(password)) {
+	    userInfo = getUser(uid, password, null);
+	}
+	if (userInfo == null) {
+	    userInfo = newUser(userAgent);
+	}
+	return afterLogin(userInfo);
+    }
+
+    public LoginResult afterLogin(User userInfo) {
+	LoginResult result = new LoginResult();
+	// 账号封停
+	if (userInfo.getSeal_time() != null && (Long) (userInfo.getSeal_time().getTime() - (new Date()).getTime()) > 0) {
+	    result.setUser(userInfo);
+	    result.setCode(ResponseBase.SEAL);
+	    return result;
+	}
+	result.setCode(ResponseBase.SUCCESS);
+	if (userInfo != null) {
+	    checkAge(userInfo);
+	    result.setCode(ResponseBase.SUCCESS);
+	    result.setNew(userInfo.isNew());
+	    if (userInfo.isNew()) {
+		result.setMd5key(userInfo.getMd5key());
+	    } else {
+		userInfo.setPassword(null);
+	    }
+	    result.setUser(userInfo);
+	    result.setPets(this.getPets(userInfo.getId()));
+	    result.setTechs(this.getTech(userInfo.getId()));
+	    result.setAchievements(this.getAchievement(userInfo.getId()));
+	    result.setProp(this.getProps(userInfo.getId()));
+	    result.setPiece(this.getUserPiece(userInfo.getId()));
+
+	    // 每日登陆奖励
+	    processLoginAward(userInfo.getId(), userInfo);
+	} else {
+	    result.setCode(ResponseBase.WRONG_PARAM);
+	}
+	logger.info("{\"userlogin\":" + userInfo + "}");
+	result.setStime(System.currentTimeMillis());
+	return result;
+    }
+
+    // 每日登陆奖励
+    private void processLoginAward(Integer uid, User userInfo) {
+	UserLastLoginTime ult = userLastLoginTimeMapper.selectList(uid);
+	int daynum = ult.getLogindaynum();
+	if (todaybiggerthan(ult.getLastlogintime()) == 1 && daynum < 7) {
+	    daynum += 1;
+	} else {
+	    daynum = 1;
+	}
+	Date nowDate = new Date();
+	ult.setLastlogintime(nowDate);
+	ult.setLogindaynum(daynum);
+	userLastLoginTimeMapper.update(ult);
+	userInfo.setDaynum(daynum);
+	// 首测活动3
+	userTestActivityService.avtivityThree(userInfo.getId(), daynum);
+	if (todaybiggerthan(ult.getLastawardtime()) == 0) {
+	    userInfo.setIsaward(true);
+	} else {
+	    userInfo.setIsaward(false);
+	}
+    }
+
+    public static int todaybiggerthan(Date before) {
+	int days = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+	Calendar c = Calendar.getInstance();
+	c.setTime(before);
+	return days - c.get(Calendar.DAY_OF_YEAR);
+    }
+
+    private User newQQUser(String openid, String figureurl_qq, String qqname, String userAgent) {
+	return createUser(openid, figureurl_qq, qqname, userAgent);
+    }
+
+    private User newUser(String userAgent) {
+	return createUser(null, null, null, userAgent);
+    }
+
+    private User createUser(String openid, String figureurl_qq, String qqname, String userAgent) {
+
+	Map<String, Integer> paraMap = new HashMap<String, Integer>();
+	String name = "seq_uid";
+	paraMap.put(name, 0);
+	userInfoMapper.initUser(paraMap);
+	int uid = paraMap.get(name);
+	// 更新默认值
+	UserInfo userInfo = createNewUser(uid, openid, figureurl_qq, qqname, userAgent);
+	userInfoMapper.update(userInfo);
+	User user = getUser(userInfo.getId(), userInfo.getPassword(), null);
+	user.setNew(true);
+	logger.info("{\"newuser\":" + userInfo + "}");
+	return user;
+    }
+
+    private User getQQUser(String openid) {
+	return getUser(null, null, openid);
+    }
+
+    private User getUser(Integer uid, String password, String openid) {
+	User u = null;
+	UserInfo userinfo = null;
+	if ((uid != null && !StringUtil.isEmpty(password))) {
+	    userinfo = userInfoMapper.selectOneUser(uid, password);
+	} else if (!StringUtil.isEmpty(openid)) {
+	    userinfo = userInfoMapper.selectOneQQUser(openid);
+	}
+	if (userinfo != null) {
+	    uid = userinfo.getUid();
+	    UserVary uv = this.getUserVary(userinfo.getUid());
+	    try {
+		u = new User(userinfo.getUid(), userinfo.getPassword());
+		org.apache.commons.beanutils.PropertyUtils.copyProperties(u, userinfo);
+		org.apache.commons.beanutils.PropertyUtils.copyProperties(u, uv);
+	    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+		e.printStackTrace();
+	    }
+	    // 荣耀总榜排行
+	    u.setRank(this.chapterBestScoreMapper.getRank(userinfo.getUid()));
+	    // 下次荣耀开奖时间
+	    u.setNextranktime(getNextRankTime());
+	    return u;
+	} else {
+	    return null;
+	}
+    }
+
+    // 获得下周一的0点0份
+    private static long getNextRankTime() {
+	Calendar c = Calendar.getInstance();
+	while (true) {
+	    c.add(Calendar.DAY_OF_YEAR, 1);
+	    int week = c.get(Calendar.DAY_OF_WEEK);
+	    if (week == 2) {
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 10);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTimeInMillis();
+
+	    }
+	}
+    }
+
+    @Override
+    public UserVary getUserVary(Integer uid) {
+	UserVary con = new UserVary(uid);
+	UserVary result = userVaryMapper.selectOne(con);
+	// 每隔15分钟增加一个体力;不超过体力最大上限
+	ExplevelConfig config = ExplevelConfig.getByAge(result.getAge());
+	if (config != null) {
+	    if (result.getStrength() < config.getMaxStrength()) {
+		int diffMin = (int) (System.currentTimeMillis() - result.getLastupdatestrengthtime().getTime()) / (config.getStrengthRegenInterval() * 60 * 1000);
+		if (diffMin > 0) {
+		    int newStrength = diffMin * config.getStrengthRegen() + result.getStrength();
+		    newStrength = newStrength > config.getMaxStrength() ? config.getMaxStrength() : newStrength;
+		    UserVary update = new UserVary(uid);
+		    update.setStrength(newStrength);
+		    result.setStrength(newStrength);
+		    userVaryMapper.update(update);
+		}
+	    }
+	}
+	return result;
+    }
+
+    private UserInfo createNewUser(int uid, String openid, String figureurl_qq, String qqname, String userAgent) {
+	UserInfo userInfo = new UserInfo();
+	userInfo.setId(uid);
+	userInfo.setPlatformid(Platform.SELF_PLATFORM.getValue());
+	userInfo.setAccount(getRandomName(8));
+	userInfo.setPassword(getRandomPassword());
+	userInfo.setMd5key(getRandomName(10));
+	userInfo.setRolename(generateGuestName());
+	userInfo.setOpenid(openid);
+	userInfo.setFigureurl_qq(figureurl_qq);
+	userInfo.setQqname(qqname);
+	userInfo.setDevicetype(DeviceTypeConfig.getTypeByName(userAgent));
+	if (!StringUtil.isEmpty(openid)) {
+	    userInfo.setPlatformid(Platform.QQ_PLATFORM.ordinal());
+	    userInfo.setRolename(qqname);
+	    if (qqname == null) {
+		userInfo.setRolename("QQ用户");
+	    }
+	}
+	return userInfo;
+    }
+    public static String generateGuestName() {
+	return "游客" + random.nextInt(2000);
+    }
+    public static Random random = new Random();
+
+    public static String getRandomName(int length) {
+	String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	StringBuffer sb = new StringBuffer();
+	for (int i = 0; i < length; i++) {
+	    int number = random.nextInt(base.length());
+	    sb.append(base.charAt(number));
+	}
+	return sb.toString();
+    }
+
+    public static String getRandomPassword() {
+	return Math.round(Math.random() * (999999 - 100000) + 100000) + "";
+    }
+
+    @Override
+    public boolean updateRoleName(Integer uid, String roleName) {
+
+	UserInfo userInfo = new UserInfo();
+	userInfo.setId(uid);
+	userInfo.setRolename(roleName);
+	int update = userInfoMapper.update(userInfo);
+	return update > 0;
+    }
+
+    @Override
+    public List<UserPet> getPets(Integer uid) {
+	return userPetMapper.selectList(uid);
+    }
+
+    @Override
+    public List<UserProp> getProps(Integer uid) {
+	return userPropMapper.selectList(uid);
+    }
+
+    @Override
+    public List<UserTech> getTech(Integer uid) {
+	return this.userTechMapper.selectList(uid);
+    }
+
+    // 0普通比赛 1挑战进阶 2 好友挑战
+    @Override
+    public SubmitGameResultResponse submitRunResult(GameResult result) {
+	SubmitGameResultResponse response = new SubmitGameResultResponse();
+	response.setType(result.getType());
+	// 更新用户属性
+	int challengecount = 0;
+	if (result.getType() == 1 || result.getType() == 2) {
+	    challengecount = 1;
+	}
+	// 总跑数
+	Integer totalrunnum = null;
+	try {
+	    UserVary uv = userVaryMapper.selectOne(result.getUid());
+	    if (uv != null) {
+		totalrunnum = uv.getTotalrunnum() + result.getDistance();
+	    }
+	} catch (Exception e) {
+
+	}
+	userVaryMapper.submitRunResult(result.getUid(), result.getGold(), result.getBosscount(), challengecount, totalrunnum);
+	// 判断完成首测活动4进行处理
+	userTestActivityService.activityFour(result.getUid(), totalrunnum);
+	// 更新场景最高记录
+
+	try {
+	    BestScore dayupdate = new BestScore(result.getUid());
+	    BeanUtils.setProperty(dayupdate, "score" + result.getChapterid(), result.getScore());
+	    BeanUtils.setProperty(dayupdate, "dist" + result.getChapterid(), result.getDistance());
+	    chapterBestScoreMapper.update(dayupdate);
+	    BestScore weekupdate = new BestScore(result.getUid());
+	    BeanUtils.setProperty(weekupdate, "weekscore" + result.getChapterid(), result.getScore());
+	    chapterBestScoreMapper.update(weekupdate);
+
+	} catch (IllegalAccessException | InvocationTargetException e) {
+	    e.printStackTrace();
+	}
+
+	response.setCode(ResponseBase.SUCCESS);
+	int type = result.getType();
+	// 如果是挑战进阶的比赛，记录结果
+	if (type == 1 && result.getMuid() > 0) {
+
+	    // 只有原来结果为无或输且分数不相等 才会记录
+	    int change = userMatchMapper.updateResult(result.getUid(), result.getChapterid(), result.getMuid(), result.getScore());
+	    if (change > 0) {
+		int mscore = userMatchMapper.getMUserScore(result.getUid(), result.getChapterid(), result.getMuid());
+		response.setWin(result.getScore() > mscore);
+
+	    } else {
+		response.setCode(0);
+	    }
+	} else if (type == 2 && result.getMuid() > 0) {// 如果是挑战好友的比赛，记录结果
+	    int count = getFriendMatchCount(result.getUid());
+	    if (count >= ConfigConfig.getIntValue("max_friendMatch")) {// 如果已经超过最大挑战次数，挑战无效
+		response.setCode(0);
+	    } else {
+		if (result.getResult() == null) {
+		    logger.error("submitRunResult()->GameResult.result can't be null");
+		    response.setCode(0);
+		    return response;
+		}
+		if (result.getResult() != 0) {// 平局无效
+		    response.setWin(result.getResult() == 1);
+		    int change = userFriendMapper.updateFriendMatchResult(result.getUid(), result.getMuid(), result.getResult());
+		    if (change > 0) {
+			userFriendMatchCountMapper.addCountOne(result.getUid());
+			response.setCode(1);
+		    } else {
+			response.setCode(0);
+		    }
+		} else {
+		    response.setCode(0);
+		}
+	    }
+
+	}
+	/*
+	 * if ((type == 1 || type == 2) && result.getMuid() > 0) { UserVary muv
+	 * = this.userVaryMapper.selectOne(result.getUid()); if
+	 * (muv.getCuplevel() == 0) { // 计算用户奖杯等级 int cuplevel =
+	 * CupLevelConfig.getLevelByCup(muv.getCup());
+	 * this.userVaryMapper.updateCupLevel(result.getUid(), cuplevel); } }
+	 */
+	// 检查成就完成情况
+	boolean hasFinishAchievement = checkAchievementFinish(result.getUid());
+	response.setHasFinishAchievement(hasFinishAchievement);
+	return response;
+    }
+
+    private int getFriendMatchCount(int uid) {
+	UserFriendMatchCount count = userFriendMatchCountMapper.selectOne(uid);
+	if (count != null) {
+	    // 清除前一天的比赛结果
+	    if (!DateFormatUtil.isToday(count.getLastupdatetime().getTime())) {
+		userFriendMatchCountMapper.clear(uid);
+		return 0;
+	    } else {
+		return count.getCount();
+	    }
+	} else {
+	    userFriendMatchCountMapper.insert(uid);
+	    return 0;
+	}
+    }
+
+    // 这个方法检查除了排行的所有成就
+    private boolean checkAchievementFinish(int uid) {
+	UserVary uv = this.userVaryMapper.selectOne(uid);
+	// 用户已经完成的成就
+	Set<Integer> aidset = new HashSet<Integer>();
+	for (UserAchievement a : this.userAchievementMapper.selectList(uid)) {
+	    aidset.add(a.getId());
+	}
+	boolean hasFinishAchievement = false;
+	Collection<BaseConfig> conns = AchievementConfig.ALL.values();
+	List<AchievementConfig> finishList = new ArrayList<AchievementConfig>();
+	// 检查跑酷次数 成就
+	for (BaseConfig bc : conns) {
+
+	    if (!aidset.contains(bc.getId())) {// 如果不在用户已完成成就里
+		AchievementConfig config = (AchievementConfig) bc;
+		if (config.getType() == AchievementConfig.TYPE_RUN) {
+		    if (uv.getRuncount() >= config.getCount()) {
+			finishList.add(config);
+			hasFinishAchievement = true;
+		    }
+		} else if (config.getType() == AchievementConfig.TYPE_GOLD) {
+		    if (uv.getGetgold() >= config.getCount()) {
+			finishList.add(config);
+			hasFinishAchievement = true;
+		    }
+		} else if (config.getType() == AchievementConfig.TYPE_CHALLENGE) {
+		    if (uv.getChallengecount() >= config.getCount()) {
+			finishList.add(config);
+			hasFinishAchievement = true;
+		    }
+		} else if (config.getType() == AchievementConfig.TYPE_BOSS) {
+		    if (uv.getBosscount() >= config.getCount()) {
+			finishList.add(config);
+			hasFinishAchievement = true;
+		    }
+		} else if (config.getType() == AchievementConfig.TYPE_RANK) {
+
+		}
+	    }
+	}
+	if (finishList.size() > 0) {
+	    for (AchievementConfig ac : finishList) {
+		UserAchievement ua = new UserAchievement(uid, ac.getId());
+		ua.setStatus(UserAchievement.STATUS_CANGET);
+		this.userAchievementMapper.insert(ua);
+	    }
+	}
+	return hasFinishAchievement;
+    }
+
+    @Override
+    public List<UserAchievement> getAchievement(int uid) {
+	UserVary uv = this.userVaryMapper.selectOne(uid);
+	if (uv == null)
+	    return null;
+	List<UserAchievement> list = new ArrayList<UserAchievement>();
+	List<UserAchievement> finishList = this.userAchievementMapper.selectList(uid);
+	Iterator<BaseConfig> iter = AchievementConfig.ALL.values().iterator();
+	while (iter.hasNext()) {
+	    AchievementConfig config = (AchievementConfig) iter.next();
+	    UserAchievement fa = findFinishAchievement(config, finishList);
+	    if (fa != null) {
+		list.add(fa);
+	    } else {
+		int type = config.getType();
+		switch (type) {
+		case AchievementConfig.TYPE_RUN:
+		    addAchievement(uid, uv.getRuncount(), list, config);
+		    break;
+		case AchievementConfig.TYPE_CHALLENGE:
+		    addAchievement(uid, uv.getChallengecount(), list, config);
+		    break;
+		case AchievementConfig.TYPE_GOLD:
+		    addAchievement(uid, uv.getGetgold(), list, config);
+		    break;
+		case AchievementConfig.TYPE_BOSS:
+		    addAchievement(uid, uv.getBosscount(), list, config);
+		    break;
+		}
+	    }
+	}
+	return list;
+    }
+
+    // 判断配置里的成就是否处理正在进行的状态，同一类型成就当前正在进行的只能有一个
+    private void addAchievement(int uid, int progress, List<UserAchievement> list, AchievementConfig config) {
+	if (progress < config.getCount()) {
+	    list.add(createUserAchievement(uid, config, progress));
+	}
+    }
+
+    private UserAchievement createUserAchievement(int uid, AchievementConfig config, Integer progress) {
+	UserAchievement uv = new UserAchievement();
+	uv.setUid(uid);
+	uv.setId(config.getId());
+	uv.setStatus(UserAchievement.STATUS_DISABLE);
+	uv.setProgress(progress);
+	uv.setTarget(config.getCount());
+	return uv;
+    }
+
+    private UserAchievement findFinishAchievement(AchievementConfig config, List<UserAchievement> finishList) {
+	for (UserAchievement ua : finishList) {
+	    if (config.getId() == ua.getId()) {
+		ua.setTarget(config.getCount());
+		ua.setProgress(config.getCount());
+		return ua;
+	    }
+	}
+	return null;
+    }
+
+    @Override
+    public List<UserPiece> getUserPiece(int uid) {
+	logger.info("---------------getUserPiece");
+	return this.userPieceMapper.selectPieceList(uid);
+    }
+
+    @Override
+    public UserPiece getUserPiece(int uid, int id) {
+	return this.userPieceMapper.selectOne(uid, id);
+    }
+
+    @Override
+    public int updateAchievement(int uid, int id, int status) {
+	UserAchievement ua = new UserAchievement(uid, id);
+	ua.setStatus(status);
+	return this.userAchievementMapper.update(ua);
+    }
+
+    private void checkAge(User uv) {
+	uv.setAge(ExplevelConfig.getAgeByExp(uv.getExp()));
+
+    }
+
+    /**
+     * 测试用例
+     */
+
+    @Override
+    public UserInfo selectUserInfoId(UserInfo u) {
+	UserInfo uf = new UserInfo();
+	try {
+	    uf = userInfoMapper.selectUserInfoId(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return uf;
+    }
+
+    @Override
+    public List<UserInfo> gameSelectUserInfoId(UserInfo u) {
+	UserInfo uf = new UserInfo();
+	List<UserInfo> list = new ArrayList<UserInfo>();
+	try {
+	    list = userInfoMapper.gameSelectUserInfoId(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return list;
+    }
+
+    @Override
+    public List<UserProp> selectGamePropList(UserProp prop) {
+	List<UserProp> list = new ArrayList<UserProp>();
+	try {
+	    list = userPropMapper.selectGamePropList(prop);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return list;
+    }
+
+    @Override
+    public void insertUserInfo(UserInfo u) {
+	try {
+	    userInfoMapper.insertUserInfo(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    @Override
+    public void updateUser(UserInfo u) {
+	try {
+	    userInfoMapper.update(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+    }
+
+    @Override
+    public void deleteUser(UserInfo u) {
+	try {
+	    userInfoMapper.delete(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+    }
+
+    @Override
+    public UserVary selectIdList(int uid) {
+	UserVary uVary = new UserVary();
+	try {
+	    uVary = userVaryMapper.selectOne(uid);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return uVary;
+    }
+
+    public void updateVary(UserVary u) {
+	try {
+	    userVaryMapper.update(u);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+    }
+
+    public List<UserPet> selectPetList(UserPet ut) {
+	List<UserPet> ls = new ArrayList<UserPet>();
+	try {
+	    ls = userPetMapper.selectPetList(ut);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return ls;
+    }
+
+    public List<UserProp> selectPropList(UserProp ut) {
+	List<UserProp> ls = new ArrayList<UserProp>();
+	try {
+	    ls = userPropMapper.selectPropList(ut);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return ls;
+    }
+
+    @Override
+    public void updatePropList(UserProp ut) {
+	try {
+	    int a = userPropMapper.update(ut);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    @Override
+    public void insertPropList(UserProp ut) {
+	try {
+	    int b = userPropMapper.insert(ut);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    public List<UserTech> selectTechList(UserTech ut) {
+	List<UserTech> ls = new ArrayList<UserTech>();
+	try {
+	    ls = userTechMapper.selectTechList(ut);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return ls;
+    }
+
+    public List<UserPiece> selectPieceList(Integer uid, Integer id) {
+	List<UserPiece> list = new ArrayList<UserPiece>();
+	UserPiece up = new UserPiece();
+	try {
+	    up = userPieceMapper.selectOne(uid, id);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	list.add(up);
+	return list;
+    }
+
+    public List<UserAchievement> selectAchievementList(UserAchievement ua) {
+	List<UserAchievement> ls = new ArrayList<UserAchievement>();
+	try {
+	    ls = userAchievementMapper.selectAchievementList(ua);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return ls;
+    }
+
+    public List<UserFriend> selectFriendList(UserFriend uf) {
+	List<UserFriend> ls = new ArrayList<UserFriend>();
+	try {
+	    ls = userFriendMapper.selectUserFriend(uf);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return ls;
+    }
+
+    @Override
+    public List<Notice> selectNotice(Notice nt) {
+	List<Notice> list=new ArrayList<Notice>();
+	try {
+	    list = proclamationMapper.selectList(nt);
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return list;
+    }
+    
+    @Override
+    public List<Notice> selectNoticeList(Notice nt) {
+	List<Notice> list=new ArrayList<Notice>();
+	try {
+	    list = proclamationMapper.selectNoticeList(nt);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return list;
+    }
+
+    @Override
+    public int updateNoticeList(Notice nt) {
+	int i=0;
+	try {
+	    i=proclamationMapper.update(nt);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return i;
+    }
+    
+    @Override
+    public int insertNoticeList(Notice nt) {
+	int i=0;
+	try {
+	    i=proclamationMapper.insert(nt);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return i;
+    }
+    
+    @Override
+    public int deleteNoticeList(Notice nt) {
+	int i=0;
+	try {
+	    i=proclamationMapper.delete(nt);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return i;
+    }
+    
+    @Override
+    public List<DiamondRecord> selectDiamondRecordList(DiamondRecord dr) {
+	List<DiamondRecord> list=new ArrayList<DiamondRecord>();
+	try {
+	    list=diamondRecordMapper.selectList(dr);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return list;
+    }
+
+    @Override
+    public String getMd5Key(Integer uid) {
+	UserInfo uf = new UserInfo();
+	uf.setId(uid);
+	try {
+	    uf = userInfoMapper.selectOne(uf);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return uf.getMd5key();
+    }
+
+}

@@ -1,0 +1,40 @@
+package com.funugame.parkour.api.beans;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ * @author linzhixian 一个配置文件内容
+ */
+public class ConfigFile implements Serializable{
+    private static final long serialVersionUID = 5756903367728912739L;
+    private List<String> columns = new ArrayList<String>();
+    private List<List<String>> data = new ArrayList<List<String>>();
+
+    public List<String> getColumns() {
+	return columns;
+    }
+
+    public void addColumns(String[] names) {
+	for(String n:names) {
+	    columns.add(n);
+	}
+    }
+    public List<List<String>> getData() {
+	return data;
+    }
+
+    public void addData(List<String> oneline) {
+	data.add(oneline);
+    }
+
+    public void addData(String[] datas) {
+	List<String> oneLine=new ArrayList<String>();
+	for(String s:datas) {
+	    oneLine.add(s);
+	}
+	data.add(oneLine);
+    }
+}

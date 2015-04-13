@@ -1,0 +1,14 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+import com.funugame.parkour.api.daoentity.UserTestActivity;
+
+public interface UserActivityMapper extends BaseMapper<UserTestActivity> {
+    public int insert(UserTestActivity uta);
+
+    public List<UserTestActivity> selecList(UserTestActivity uta);
+
+    public int update(UserTestActivity uta);
+
+    public int delete(UserTestActivity uta);
+}

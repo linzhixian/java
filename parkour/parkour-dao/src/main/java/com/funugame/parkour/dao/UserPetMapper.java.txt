@@ -1,0 +1,13 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserPet;
+
+public interface UserPetMapper extends BaseMapper<UserPet> {
+    public List<UserPet> selectPetList(UserPet ut);
+    public List<UserPet> selectList(Integer uid);
+    int insert(UserPet ut);
+    int update(UserPet ut);
+    int delete(UserPet ut);
+}

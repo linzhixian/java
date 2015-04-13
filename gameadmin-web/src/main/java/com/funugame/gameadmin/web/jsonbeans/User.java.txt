@@ -1,0 +1,256 @@
+package com.funugame.gameadmin.web.jsonbeans;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class User extends AbstractRequest implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private Integer id;
+    private String account;
+    private String password;
+    private String rolename;
+    private String md5key;
+
+    private int platformid;
+    private String openid;
+    private String figureurl_qq;
+    private String qqname;
+    private Date create_time;
+    private Date seal_time;
+
+    private Integer exp;
+    private Integer age;
+    private Integer gold;
+    private Integer diamond;
+    private Integer strength;
+    private Integer bone;
+    private Integer piece;
+    private Integer cup;
+    private Integer cuplevel;
+    private Integer runcount;
+    private Integer challengecount;
+    private Integer getgold;
+    private Integer bosscount;
+    private Integer techpoint;
+    private Integer totalrunnum;// 总跑距离
+    private Date lastupdatestrengthtime;
+
+    public Integer getId() {
+	return id;
+    }
+
+    public void setId(Integer id) {
+	this.id = id;
+    }
+
+    public String getAccount() {
+	return account;
+    }
+
+    public void setAccount(String account) {
+	this.account = account;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
+    }
+
+    public String getRolename() {
+	return rolename;
+    }
+
+    public void setRolename(String rolename) {
+	this.rolename = rolename;
+    }
+
+    public String getMd5key() {
+	return md5key;
+    }
+
+    public void setMd5key(String md5key) {
+	this.md5key = md5key;
+    }
+
+    public int getPlatformid() {
+	return platformid;
+    }
+
+    public void setPlatformid(int platformid) {
+	this.platformid = platformid;
+    }
+
+    public String getOpenid() {
+	return openid;
+    }
+
+    public void setOpenid(String openid) {
+	this.openid = openid;
+    }
+
+    public String getFigureurl_qq() {
+	return figureurl_qq;
+    }
+
+    public void setFigureurl_qq(String figureurl_qq) {
+	this.figureurl_qq = figureurl_qq;
+    }
+
+    public String getQqname() {
+	return qqname;
+    }
+
+    public void setQqname(String qqname) {
+	this.qqname = qqname;
+    }
+
+    public Integer getExp() {
+	return exp;
+    }
+
+    public void setExp(Integer exp) {
+	this.exp = exp;
+    }
+
+    public Integer getAge() {
+	return age;
+    }
+
+    public void setAge(Integer age) {
+	this.age = age;
+    }
+
+    public Integer getGold() {
+	return gold;
+    }
+
+    public void setGold(Integer gold) {
+	this.gold = gold;
+    }
+
+    public Integer getDiamond() {
+	return diamond;
+    }
+
+    public void setDiamond(Integer diamond) {
+	this.diamond = diamond;
+    }
+
+    public Integer getStrength() {
+	return strength;
+    }
+
+    public void setStrength(Integer strength) {
+	this.strength = strength;
+    }
+
+    public Integer getBone() {
+	return bone;
+    }
+
+    public void setBone(Integer bone) {
+	this.bone = bone;
+    }
+
+    public Integer getPiece() {
+	return piece;
+    }
+
+    public void setPiece(Integer piece) {
+	this.piece = piece;
+    }
+
+    public Integer getCup() {
+	return cup;
+    }
+
+    public void setCup(Integer cup) {
+	this.cup = cup;
+    }
+
+    public Integer getCuplevel() {
+	return cuplevel;
+    }
+
+    public void setCuplevel(Integer cuplevel) {
+	this.cuplevel = cuplevel;
+    }
+
+    public Integer getRuncount() {
+	return runcount;
+    }
+
+    public void setRuncount(Integer runcount) {
+	this.runcount = runcount;
+    }
+
+    public Integer getChallengecount() {
+	return challengecount;
+    }
+
+    public void setChallengecount(Integer challengecount) {
+	this.challengecount = challengecount;
+    }
+
+    public Integer getGetgold() {
+	return getgold;
+    }
+
+    public void setGetgold(Integer getgold) {
+	this.getgold = getgold;
+    }
+
+    public Integer getBosscount() {
+	return bosscount;
+    }
+
+    public void setBosscount(Integer bosscount) {
+	this.bosscount = bosscount;
+    }
+
+    public Integer getTechpoint() {
+	return techpoint;
+    }
+
+    public void setTechpoint(Integer techpoint) {
+	this.techpoint = techpoint;
+    }
+
+    public Integer getTotalrunnum() {
+	return totalrunnum;
+    }
+
+    public void setTotalrunnum(Integer totalrunnum) {
+	this.totalrunnum = totalrunnum;
+    }
+
+    public Date getLastupdatestrengthtime() {
+	return lastupdatestrengthtime;
+    }
+
+    public void setLastupdatestrengthtime(Date lastupdatestrengthtime) {
+	this.lastupdatestrengthtime = lastupdatestrengthtime;
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getCreate_time() {
+	return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+	this.create_time = create_time;
+    }
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getSeal_time() {
+	return seal_time;
+    }
+
+    public void setSeal_time(Date seal_time) {
+	this.seal_time = seal_time;
+    }
+}

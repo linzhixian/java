@@ -1,0 +1,5 @@
+id	场景名	开放规则(几级开放)	村民数量	地面障碍数量	空中障碍数量	临时宠物数量	描述
+id	name	openLevel	person	barrier_ground	barrier_air	pet	desc
+1	古木森林	1	6	2	3	1	
+2	南山洞穴	20	6	2	3	2	
+3	浮空岛屿	40	6	2	3	2	

@@ -1,0 +1,17 @@
+package com.funugame.shooting.api;
+
+import com.funugame.shooting.api.daoentity.ShootingStat;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public interface IShootingStatService {
+    public ResponseBase submitGameResult(Integer cid, Integer result);
+
+    public ShootingStat getTodayStat(Integer cid);
+
+    public void setSelf(IShootingStatService shootingStatService);
+
+    public ShootingStat getTodayStat(Integer cid, String format);
+
+
+    public ResponseBase submitGameResult(Integer cid, String todays, Integer result);
+}

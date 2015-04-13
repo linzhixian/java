@@ -1,0 +1,73 @@
+package com.funugame.parkour.api.configbeans;
+
+import java.util.Iterator;
+
+import net.sf.json.JSONObject;
+
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class ChapterRankRewardConfig extends BaseConfig {
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    public static ChapterRankRewardConfig LAST;
+    private String reward;
+
+    private Integer gold;
+    private Integer cup;
+
+    public static ChapterRankRewardConfig getById(int id) {
+	ChapterRankRewardConfig config=(ChapterRankRewardConfig) ALL.get(id);
+	if(config==null) return getLast();
+	return config;
+    }
+
+    public String getReward() {
+	return reward;
+    }
+
+    public void setReward(String reward) {
+	this.reward = reward;
+	if (this.reward != null) {
+	    JSONObject jsonObj2 = JSONObject.fromObject(reward);
+	    Object gold = jsonObj2.get("gold");
+	    if (gold != null) {
+		this.gold = Integer.parseInt(gold.toString());
+	    }
+	    Object cup = jsonObj2.get("cup");
+	    if (cup != null) {
+		this.cup = Integer.parseInt(cup.toString());
+	    }
+	}
+    }
+
+    public Integer getGold() {
+	return gold;
+    }
+
+    public void setGold(int gold) {
+	this.gold = gold;
+    }
+
+    public Integer getCup() {
+	return cup;
+    }
+
+    public void setCup(int cup) {
+	this.cup = cup;
+    }
+
+    public static ChapterRankRewardConfig getLast() {
+	if (LAST == null) {
+	    Iterator<Integer> keys = ALL.keySet().iterator();
+	    int lastkey = 0;
+	    while (keys.hasNext()) {
+		Integer key = keys.next();
+		if (key > lastkey) {
+		    lastkey = key;
+		}
+	    }
+	    LAST = (ChapterRankRewardConfig) ALL.get(lastkey);
+	}
+	return LAST;
+    }
+
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.DiamondRecordMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="1000" readOnly="true" />
+
+	<select id="selectList" parameterType="DiamondRecord" resultType="DiamondRecord">
+		select *
+		from diamond_record where uid=#{uid} and  
+		<![CDATA[time>=date_format('${beforetime}','%Y-%m-%d %H:%i') and time<=date_format('${aftertime}','%Y-%m-%d %H:%i')]]>
+	</select>
+	
+	
+	<insert id="insert" parameterType="DiamondRecord">
+		insert into diamond_record(uid,code,pid,num,time,cost)  
+		 values(#{uid},#{code},#{pid},#{num},#{time},#{cost})
+	</insert>
+	
+
+</mapper>

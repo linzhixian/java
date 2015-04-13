@@ -1,0 +1,60 @@
+package com.funugame.parkour.web.command;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IRankService;
+import com.funugame.parkour.api.jsonbeans.ScoreRankResponse;
+import com.funugame.parkour.api.jsonbeans.Uid;
+import com.funugame.parkour.api.jsonbeans.UidAndChapterId;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@WebCommand
+@Service
+@Lazy
+public class RankCommands {
+    @Autowired
+    private IRankService rankService;
+
+    // 荣耀场景最佳成绩排行
+
+    @WebAction(name = "scoreRank")
+    public ScoreRankResponse getScoreRank(UidAndChapterId request) {
+	Integer uid = request.getUid();
+	Integer chaperid = request.getChapterid();
+	ScoreRankResponse response = new ScoreRankResponse();
+	response.setRanklist(rankService.getTopScoreRankList(chaperid));
+	response.setScore(rankService.getUserBestScore(uid, chaperid));
+	return response;
+    }
+
+    /**
+     * 伙伴最佳成绩排行 @author Administrator 2014年11月20日上午10:26:08
+     */
+    @WebAction(name = "friendScoreRank")
+    public ScoreRankResponse friendScoreRank(UidAndChapterId request) {
+	Integer uid = request.getUid();
+	Integer chaperid = request.getChapterid();
+	ScoreRankResponse response = new ScoreRankResponse();
+	response.setRanklist(rankService.getFriendScoreRankList(request));
+	try {
+	response.setScore(rankService.getUserBestScore(uid, chaperid));
+	}catch(Exception e) {
+	}
+	return response;
+    }
+
+    /**
+     * 获得荣耀排行奖励
+     */
+    @WebAction(name = "getRankAward")
+    public ResponseBase getRankAward(Uid resquest) {
+	Integer uid = resquest.getUid();
+	boolean isClear = rankService.clearRank(uid);
+	ResponseBase result = new ResponseBase(isClear ? 1 : 0);
+	return result;
+    }
+}

@@ -1,0 +1,23 @@
+/**
+ * 
+ */
+package com.funugame.parkour.web.service;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.parkour.api.IConfigService;
+import com.lzx.framework.web.springjson.service.AbstractService;
+
+/**
+ * @author linzhixian 2014年10月24日下午2:24:27
+ * 
+ */
+
+@Service
+@Lazy
+public class ConfigServiceProxy extends AbstractService<IConfigService> {
+
+
+
+}

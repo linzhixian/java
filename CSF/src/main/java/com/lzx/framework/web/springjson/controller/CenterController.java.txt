@@ -1,0 +1,177 @@
+package com.lzx.framework.web.springjson.controller;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lzx.framework.web.springjson.annotation.CheckRight;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebActionIngore;
+import com.lzx.framework.web.springjson.annotation.WebActionNeedSign;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.IRequestJson;
+import com.lzx.framework.web.springjson.beans.IUidSupport;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+import com.lzx.framework.web.springjson.user.HttpUser;
+
+public abstract class CenterController {
+
+    private Map<String, CommandMethod> commandMap;
+
+    boolean isInit = false;
+
+    protected Map<String, Object> controller(IRequestJson requestJson) {
+	return controller(requestJson, null);
+    }
+
+    protected Map<String, Object> controller(IRequestJson requestJson, HttpUser httpUser) {
+	if (!isInit) {
+	    this.init();
+	    this.isInit = true;
+	}
+	Map<String, Object> output = new HashMap<>();
+	Integer uid = requestJson.getUid();
+	// 判断签名
+	if (requestJson.getSign() != null) {
+	    if (checkSign(uid, requestJson.getSign(), requestJson.getSource())) {
+		requestJson.getValue().setUid(uid);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+		    requestJson = mapper.readValue(requestJson.getSource(), getRequestJsonClass());
+		} catch (JsonParseException e) {
+		    e.printStackTrace();
+		} catch (JsonMappingException e) {
+		    e.printStackTrace();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		executeMethod(requestJson, uid, output, true, httpUser);
+		return output;
+	    } else {
+		output.put("code", 5);
+		return output;
+	    }
+	}
+	executeMethod(requestJson, uid, output, false, httpUser);
+	return output;
+    }
+
+    protected abstract Class getRequestJsonClass();
+
+    private boolean hasPermission(HttpUser httpUser, String name) {
+	if (httpUser == null) {
+	    return false;
+	}
+	CommandMethod comandMethod = commandMap.get(name);
+	if (comandMethod != null && comandMethod.isCheckPermission()) {
+	    return httpUser.hasPermission(name);
+	} else {
+	    return true;
+	}
+
+    }
+
+    private void executeMethod(IRequestJson requestJson, Integer uid, Map<String, Object> output, boolean isSign, HttpUser httpUser) {
+	Method[] methods = requestJson.getClass().getDeclaredMethods();// 获取类中的方法
+	// 用户提交过来的requestJson里面有不为空的对象就把对象派发到知道的处理类
+	for (Method m : methods) {
+	    String methodName = m.getName();
+	    WebActionIngore ass = m.getAnnotation(WebActionIngore.class);
+	    // CheckRight checkRight = m.getAnnotation(CheckRight.class);
+	    if (ass != null)
+		continue;
+
+	    if (methodName.startsWith("get")) {
+		String name = toLowerCaseFirstOne(methodName.substring(3));
+		if (!hasPermission(httpUser, name)) {
+		    output.put("code", ResponseBase.NO_PERMISSION);
+		    return;
+		}
+		try {
+		    Object obj = m.invoke(requestJson);// 掉方法返回对象
+		    if (obj != null) {
+			WebActionNeedSign signAnno = m.getAnnotation(WebActionNeedSign.class);
+			if (signAnno != null && !isSign) {
+			    output.put("code", 5);
+			    return;
+			}
+
+			if (obj instanceof IUidSupport) {
+			    if (uid != null)
+				((IUidSupport) obj).setUid(uid);
+			}
+			Object result = callAction(name, obj, requestJson.getHeader(),httpUser);
+			output.put(name + "Response", result);
+			if (result instanceof ResponseBase) {
+			    output.put("code", ((ResponseBase) result).getCode());
+			}
+		    }
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		    e.printStackTrace();
+		    ResponseBase rs = new ResponseBase(ResponseBase.UNKONW_ERROR);
+		    rs.setError("Exception:" + name + ":" + e.getMessage());
+		    output.put(name + "Response", rs);
+		}
+	    }
+
+	}
+    }
+
+    protected abstract boolean checkSign(Integer uid, String sign, String source);
+
+    private Object callAction(String name, Object obj, Map<String, String> header,HttpUser httpUser) {
+	CommandMethod m = commandMap.get(name);
+	if (m == null) {
+	    System.err.println("callMethod:" + name + " is null");
+	    ResponseBase rs = new ResponseBase(ResponseBase.FUNCTION_NOTFOUND);
+	    rs.setError("Exception:" + name + ":method not found.");
+	    return rs;
+	}
+
+	return m.call(obj, header,httpUser);
+    }
+
+    /**
+     * 搜索spring容器里所有带WebCommand 注解的对象，并把带WebAction注解的方法注册到map里，以便之后可以快速调用
+     * 
+     * @author lzx 2014年11月21日下午2:37:51
+     */
+    private void init() {
+	commandMap = new HashMap<String, CommandMethod>();
+	WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+	Map<String, Object> commandsMap = webApplicationContext.getBeansWithAnnotation(WebCommand.class);
+	Iterator<Object> iter = commandsMap.values().iterator();
+	while (iter.hasNext()) {
+	    Object command = iter.next();
+	    Method[] method = command.getClass().getDeclaredMethods();
+	    for (Method m : method) {
+		WebAction waction = m.getAnnotation(WebAction.class);
+		if (waction != null) {
+		    String name = waction.name();
+		    boolean checkPermission = waction.checkPermission();
+		    CommandMethod cm = new CommandMethod(command, m, checkPermission);
+		    commandMap.put(name, cm);
+		    System.err.println("-----------load webcommand:" + name);
+		}
+	    }
+
+	}
+    }
+
+    public static String toLowerCaseFirstOne(String s) {
+	if (Character.isLowerCase(s.charAt(0))) // 确定指定的字符是否为小写字母
+	    return s;
+	else
+	    return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+    }
+
+}

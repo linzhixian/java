@@ -1,0 +1,30 @@
+package com.funugame.gameadmin.web.jsonbeans;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class SealUser extends AbstractRequest implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private Integer uid;
+    private Integer sealnum;
+    private Date seal_time;
+    public Integer getUid() {
+        return uid;
+    }
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+    public Date getSeal_time() {
+        return seal_time;
+    }
+    public void setSeal_time(Date seal_time) {
+        this.seal_time = seal_time;
+    }
+    public Integer getSealnum() {
+        return sealnum;
+    }
+    public void setSealnum(Integer sealnum) {
+        this.sealnum = sealnum;
+    }
+    
+}

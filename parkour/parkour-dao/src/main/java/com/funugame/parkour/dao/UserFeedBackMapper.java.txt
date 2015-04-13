@@ -1,0 +1,15 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.funugame.parkour.api.daoentity.UserFeedBack;
+
+public interface UserFeedBackMapper extends BaseMapper<UserFeedBack>{
+    int insert(UserFeedBack ufb);
+    
+    public List<UserFeedBack> queryList(@Param("timeFrom") String timeFrom,@Param("timeTo") String timeTo,@Param("reply")int reply,@Param("devicetype")Integer devicetype);
+    public void updateReply(@Param("id") Integer id,@Param("reply")String reply);
+    
+}

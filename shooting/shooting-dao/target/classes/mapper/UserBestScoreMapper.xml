@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserBestScoreMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="2048" />
+
+
+
+	<insert id="insert" parameterType="int">
+		INSERT INTO
+		user_bestscore(uid)
+		value(#{uid})
+	</insert>
+
+
+
+	
+	<select id="selectOne" parameterType="hashmap" resultType="int">
+		select ${score} as score from user_bestscore
+		<where>
+			uid=${uid} 
+		</where>
+	</select>
+
+
+	<update id="update" parameterType="BestScore">
+		UPDATE user_bestscore
+		<set>
+			<if test="score1 != null">score1 = #{score1},</if>
+			<if test="score2 != null">score2 = #{score2},</if>
+			<if test="score3 != null">score3 = #{score3},</if>
+			<if test="score4 != null">score4 = #{score4},</if>
+			totalscore=score1+score2+score3+score4
+		</set>
+		<where>
+			uid = #{uid}
+
+			<if test="score1 != null"><![CDATA[and score1< #{score1}]]></if>
+			<if test="score2 != null"><![CDATA[and score2< #{score2}]]></if>
+			<if test="score3 != null"><![CDATA[and score3< #{score3}]]></if>
+			<if test="score4 != null"><![CDATA[and score4< #{score4}]]></if>
+		</where>
+	</update>
+
+
+	<select id="getRankList" parameterType="hashmap" resultType="ScoreRankUser" statementType="STATEMENT">
+	 <![CDATA[ 
+		select b.uid,b.rolename,a.${score} as score,b.age,b.cup,b.cuplevel from user_bestscore a,user_view b where a.uid=b.id order by a.${score} desc limit 10;
+		]]>
+	</select>
+
+	<select id="getFriendRankList" parameterType="hashmap" resultType="ScoreRankUser" statementType="STATEMENT">
+	 <![CDATA[ 
+		select b.uid,b.rolename,a.${score} as score,b.age,b.cup,b.cuplevel from user_bestscore a,user_view b where a.uid=b.id and a.uid in (select fuid from user_friend where uid=${uid}) order by a.${score} desc limit 10;
+		]]>
+	</select>
+
+
+	<update id="clearRank" parameterType="int">
+		UPDATE user_bestscore set rank=0 where uid=#{uid} and rank>0 
+	</update>
+</mapper>

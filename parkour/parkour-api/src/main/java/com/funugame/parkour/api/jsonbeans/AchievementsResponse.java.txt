@@ -1,0 +1,22 @@
+package com.funugame.parkour.api.jsonbeans;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserAchievement;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public class AchievementsResponse extends ResponseBase{
+
+    private static final long serialVersionUID = 1L;
+
+    private List<UserAchievement> achievements;
+
+    public List<UserAchievement> getAchievements() {
+        return achievements;
+    }
+    public void setAchievements(List<UserAchievement> achievements) {
+        this.achievements = achievements;
+    }
+
+    
+}

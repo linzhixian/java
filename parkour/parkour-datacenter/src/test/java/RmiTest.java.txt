@@ -1,0 +1,52 @@
+import java.util.Calendar;
+import java.util.List;
+
+import com.funugame.parkour.api.IMatchService;
+import com.funugame.parkour.api.IRankService;
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.daoentity.MatchUser;
+import com.funugame.parkour.api.daoentity.ScoreRankUser;
+import com.lzx.framework.rmi.RMIUtil;
+import com.lzx.framework.utils.StringUtil;
+
+public class RmiTest {
+
+    public static void main(String[] args) {
+	RMIUtil.RMI_URL = "rmi://127.0.0.1:10099/";
+	System.out.println(System.currentTimeMillis());
+	System.out.println(System.currentTimeMillis() / 1000);
+	Calendar c = Calendar.getInstance();
+	c.setTimeInMillis(Integer.MAX_VALUE * 1000l);
+	System.out.println(c.getTime());
+	// User user2=service.loginOrRegister(20, "640157");
+	// System.out.println(StringUtil.beanToString(user2));
+	// testRankService();
+	// testUserMatchService();
+	 testUserService();
+    }
+
+    public static void testUserService() {
+
+    }
+
+    public static void testRankService() {
+	IRankService service = (IRankService) RMIUtil.lookupRmi(IRankService.class);
+	List<ScoreRankUser> rankList = service.getTopScoreRankList(3);
+	System.out.println("size:" + rankList.size());
+	for (ScoreRankUser s : rankList) {
+	    System.out.println(StringUtil.beanToString(s));
+	}
+
+    }
+
+    public static void testUserMatchService() {
+	IMatchService service = (IMatchService) RMIUtil.lookupRmi(IMatchService.class);
+	List<MatchUser> list = service.getMathUserList(45, 1);
+	for (MatchUser m : list) {
+	    System.out.println(StringUtil.beanToString(m));
+	}
+    }
+
+    public static void test() {
+    }
+}

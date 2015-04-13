@@ -1,0 +1,178 @@
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50613
+Source Host           : localhost:3306
+Source Database       : parkour
+
+Target Server Type    : MYSQL
+Target Server Version : 50613
+File Encoding         : 65001
+
+Date: 2014-11-05 11:49:26
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `chapter_bestscore`
+-- ----------------------------
+DROP TABLE IF EXISTS `chapter_bestscore`;
+CREATE TABLE `chapter_bestscore` (
+  `chapter` tinyint(4) NOT NULL COMMENT '场景',
+  `uid` int(11) NOT NULL,
+  `bestscore` int(11) NOT NULL COMMENT '最好成绩',
+  PRIMARY KEY (`chapter`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='场景最好成绩表';
+
+-- ----------------------------
+-- Records of chapter_bestscore
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_friend`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_friend`;
+CREATE TABLE `user_friend` (
+  `uid` int(11) NOT NULL,
+  `fuid` int(11) NOT NULL,
+  PRIMARY KEY (`uid`,`fuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='好友表';
+
+-- ----------------------------
+-- Records of user_friend
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_info`;
+CREATE TABLE `user_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account` varchar(32) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `roleid` tinyint(4) DEFAULT NULL COMMENT '头像(角色)',
+  `rolename` varchar(30) DEFAULT NULL COMMENT '用户角色名',
+  `isforbidden` int(1) NOT NULL DEFAULT '0',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastupdatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`isforbidden`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_info
+-- ----------------------------
+INSERT INTO `user_info` VALUES ('1', 'lzx', '123', null, null, '0', '0000-00-00 00:00:00', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('2', 'lzx2', '1224', null, null, '1', '0000-00-00 00:00:00', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('3', 'lzx3', '1', null, null, '0', '2014-10-31 13:57:58', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('4', 'lzx4', '1', null, null, '0', '2014-10-31 13:58:44', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('20', 'mq97hvMT', '640157', null, null, '0', '2014-11-04 15:36:02', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('21', 'EZa6uyYn', '259387', null, null, '0', '2014-11-04 15:36:56', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('22', 'oCncC2VW', '369334', null, null, '0', '2014-11-04 15:40:04', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('23', 'XxGQYTi7', '629893', null, null, '0', '2014-11-04 15:41:09', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('24', 'Y4eaRqmY', '361303', null, null, '0', '2014-11-04 15:42:13', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('25', 'haxMWob6', '123323', null, null, '0', '2014-11-04 15:43:45', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('26', 'a2s2lo85', '195444', null, null, '0', '2014-11-04 15:54:17', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('27', 'wNUMoNIX', '995643', null, null, '0', '2014-11-04 15:57:23', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('28', 'SnX149g4', '795469', null, null, '0', '2014-11-04 15:59:13', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('29', 'KU7OMgLG', '367777', null, null, '0', '2014-11-04 16:55:03', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('30', 'qlBbTMxK', '350770', null, null, '0', '2014-11-04 16:57:25', '2014-11-04 18:17:38');
+INSERT INTO `user_info` VALUES ('31', 'ObBkCSLs', '857449', null, null, '0', '2014-11-04 16:58:03', '2014-11-04 18:17:38');
+
+-- ----------------------------
+-- Table structure for `user_lastlogintime`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_lastlogintime`;
+CREATE TABLE `user_lastlogintime` (
+  `uid` int(11) NOT NULL,
+  `lastlogintime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `logincount` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_lastlogintime
+-- ----------------------------
+INSERT INTO `user_lastlogintime` VALUES ('30', '2014-11-04 16:58:02', '0');
+INSERT INTO `user_lastlogintime` VALUES ('31', '2014-11-04 17:00:49', '2');
+
+-- ----------------------------
+-- Table structure for `user_pet`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_pet`;
+CREATE TABLE `user_pet` (
+  `uid` int(11) NOT NULL,
+  `petid` smallint(6) NOT NULL,
+  `level` tinyint(4) NOT NULL,
+  KEY `uid_index` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_pet
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_prop`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_prop`;
+CREATE TABLE `user_prop` (
+  `uid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL COMMENT '道具id',
+  `num` smallint(6) NOT NULL DEFAULT '0' COMMENT '道具数量',
+  `level` tinyint(4) NOT NULL DEFAULT '1' COMMENT '道具等级',
+  KEY `uid_index` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户道具表';
+
+-- ----------------------------
+-- Records of user_prop
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_setting`;
+CREATE TABLE `user_setting` (
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `sound` tinyint(1) NOT NULL DEFAULT '1',
+  `music` tinyint(1) NOT NULL DEFAULT '1',
+  `canbefriend` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否可以被人添加为好友',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_setting
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user_vary`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_vary`;
+CREATE TABLE `user_vary` (
+  `uid` int(11) NOT NULL,
+  `exp` int(11) NOT NULL DEFAULT '0',
+  `age` smallint(6) NOT NULL DEFAULT '0',
+  `gold` int(11) NOT NULL DEFAULT '0' COMMENT '金币',
+  `diamond` int(11) NOT NULL DEFAULT '0' COMMENT '钻石',
+  `strength` int(11) NOT NULL DEFAULT '0' COMMENT '体力',
+  `honour` int(11) NOT NULL DEFAULT '0' COMMENT '荣誉',
+  `lastupdatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`uid`),
+  KEY `honour_index` (`honour`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户改变属性表';
+
+-- ----------------------------
+-- Records of user_vary
+-- ----------------------------
+INSERT INTO `user_vary` VALUES ('20', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('21', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('22', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('23', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('24', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('25', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('26', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('27', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('28', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('29', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('30', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');
+INSERT INTO `user_vary` VALUES ('31', '0', '0', '0', '0', '0', '0', '2014-11-04 18:17:04');

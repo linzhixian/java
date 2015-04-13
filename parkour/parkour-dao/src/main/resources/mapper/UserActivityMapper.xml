@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserActivityMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" readOnly="true" />
+
+	<insert id="insert" parameterType="UserTestActivity">
+		INSERT INTO
+		user_testactivity(uid,aid,result)
+		values(#{uid},#{aid},#{result})
+	</insert>
+	<select id="selectList" parameterType="UserTestActivity" resultType="UserTestActivity">
+		select *
+		from user_testactivity
+		<where>
+			uid=#{uid}
+			<if test="aid!=null"> and aid=#{aid}</if>
+		</where>
+	</select>
+
+	<update id="update" parameterType="UserTestActivity">
+		UPDATE user_testactivity
+		<set>
+			<if test="result != null"> result = #{result},</if>
+		</set>
+		WHERE uid = #{uid} and aid=#{aid}
+	</update>
+
+	<delete id="delete" parameterType="UserTestActivity">
+		delete from user_testactivity WHERE uid = #{uid} and aid=#{aid}
+	</delete>
+
+</mapper>

@@ -1,0 +1,17 @@
+package com.funugame.parkour.web.jsonbean;
+
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public class RechargeMoneyResponse  extends ResponseBase{
+    private static final long serialVersionUID = 1L;
+    boolean result;
+
+    public boolean isResult() {
+        return result;
+    }
+
+    public void setResult(boolean result) {
+        this.result = result;
+    }
+
+}

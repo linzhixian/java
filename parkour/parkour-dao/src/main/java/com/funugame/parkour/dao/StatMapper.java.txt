@@ -1,0 +1,15 @@
+package com.funugame.parkour.dao;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.funugame.parkour.api.daoentity.UserStat;
+
+public interface StatMapper {
+
+    public void insertDefault(int uid);
+    public UserStat selectOne(int uid);
+
+    public void addUsePropCount(@Param("uid") int uid,@Param("usepropcount")int usepropcount );
+    public int getUserPropCount(int uid);
+
+}

@@ -1,0 +1,13 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserTech;
+
+public interface UserTechMapper extends BaseMapper<UserTech> {
+    public List<UserTech> selectList(Integer uid);
+    public List<UserTech> selectTechList(UserTech ut);
+    public int insert(UserTech ut);
+    public int update(UserTech ut);
+    public int delete(UserTech ut);
+}

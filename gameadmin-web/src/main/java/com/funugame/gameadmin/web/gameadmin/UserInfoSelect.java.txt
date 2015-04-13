@@ -1,0 +1,46 @@
+package com.funugame.gameadmin.web.gameadmin;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.funugame.gameadmin.web.jsonbeans.User;
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserVary;
+
+@Controller
+@Lazy
+@RequestMapping(value = "/userinfoselect")
+public class UserInfoSelect {
+    @Autowired
+    private IUserService userService;
+    
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model) {
+	model.addAttribute(new UserInfo());
+	System.out.println("11111111");
+	return "index";
+    }
+
+    @RequestMapping(value = "/list2", method = RequestMethod.POST)
+    @ResponseBody
+    public DataGridResult userInfoSelectList(@RequestBody UserInfo ui) {
+	User user = new User();
+	try {
+	    ui = userService.selectUserInfoId(ui);
+	    UserVary uv = userService.selectIdList(ui.getId());
+	    org.apache.commons.beanutils.PropertyUtils.copyProperties(user, ui);
+	    org.apache.commons.beanutils.PropertyUtils.copyProperties(user, uv);
+	    System.out.println("222222222222");
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return new DataGridResult(user);
+    }
+}

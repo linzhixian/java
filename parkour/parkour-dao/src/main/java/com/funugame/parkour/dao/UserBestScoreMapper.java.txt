@@ -1,0 +1,39 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.funugame.parkour.api.daoentity.BestScore;
+import com.funugame.parkour.api.daoentity.BestScoreOne;
+import com.funugame.parkour.api.daoentity.ScoreRankUser;
+
+public interface UserBestScoreMapper extends BaseMapper<BestScore> {
+
+    public int insert(int uid);
+
+    public int update(BestScore t);
+
+    public List<ScoreRankUser> getRankList(@Param("score") String score, @Param("dist") String dist, @Param("limit") Integer limit);
+
+    public List<ScoreRankUser> getFriendRankList(@Param("uid") int uid, @Param("weekscore") String score, @Param("dist") String dist, @Param("limit") Integer limit);
+
+    public int clearRank(int uid);
+    
+    public void clearDayRank();
+
+    public void callScoreRank();
+
+    public void callsubcenesranksrore();
+    
+    public List<BestScore> getSubscenesRankScore(@Param("chapterid") int chapterid,@Param("time") String time);
+
+    public List<BestScoreOne> getBiggerScoreUserList(@Param("uid") int uid, @Param("score") String score, @Param("dist") String dist, @Param("limit") Integer limit);
+
+    public List<BestScoreOne> getSmallerScoreUserList(@Param("uid") int uid, @Param("score") String score, @Param("dist") String dist, @Param("limit") Integer limit);
+
+    public int getScore(@Param("uid") int uid, @Param("score") String score);
+    
+    public int getRank(@Param("uid") int uid);
+
+}

@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.6" jmeter="2.11 r1554548">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="跑酷测试计划" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1415605816000</longProp>
+        <longProp name="ThreadGroup.end_time">1415605816000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json;charset=utf-8</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="察看结果树" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="更新角色名" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="uid" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">45</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">uid</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/updateRoleName</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="login" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;login&quot;:{&quot;uid&quot;:45,&quot;password&quot;:123}&#xd;
+	}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="friend" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+      &#xd;
+        	&quot;friend&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;fuid&quot;: 58&#xd;
+        	}]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="shop" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 2&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;exp&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/shop/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="addfriend" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;exp&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 52&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/friend/addFriend</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="deletefriend" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;exp&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 52&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/friend/deleteFriend</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="findfriendlist" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;exp&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 33&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/friend/findFriendlist</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="vary" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+    	&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 4,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;vary&quot;: &#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;exp&quot;: 50,&#xd;
+                &quot;age&quot;: 50,&#xd;
+                &quot;gold&quot;: 50,&#xd;
+                &quot;diamond&quot;: 50,&#xd;
+                &quot;strength&quot;: 50,&#xd;
+                &quot;bone&quot;: 50&#xd;
+            },&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/vary/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="pet" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;vary&quot;: &#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;exp&quot;: 50,&#xd;
+                &quot;age&quot;: 50,&#xd;
+                &quot;gold&quot;: 50,&#xd;
+                &quot;diamond&quot;: 50,&#xd;
+                &quot;strength&quot;: 50,&#xd;
+                &quot;bone&quot;: 50&#xd;
+            },&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;pet&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 2,&#xd;
+                &quot;level&quot;: 3&#xd;
+        	}]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">parkour/pet/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="tech" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;vary&quot;: &#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;exp&quot;: 50,&#xd;
+                &quot;age&quot;: 50,&#xd;
+                &quot;gold&quot;: 50,&#xd;
+                &quot;diamond&quot;: 50,&#xd;
+                &quot;strength&quot;: 50,&#xd;
+                &quot;bone&quot;: 50&#xd;
+            },&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;pet&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 2,&#xd;
+                &quot;level&quot;: 3&#xd;
+        	}],&#xd;
+        &quot;tech&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;level&quot;: 4&#xd;
+        	}]	&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/tech/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="piece" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 66,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;num&quot;: 1&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;vary&quot;: &#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;exp&quot;: 50,&#xd;
+                &quot;age&quot;: 50,&#xd;
+                &quot;gold&quot;: 50,&#xd;
+                &quot;diamond&quot;: 50,&#xd;
+                &quot;strength&quot;: 50,&#xd;
+                &quot;bone&quot;: 50&#xd;
+            },&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;pet&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 2,&#xd;
+                &quot;level&quot;: 3&#xd;
+        	}],&#xd;
+        &quot;tech&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;level&quot;: 4&#xd;
+        	}],&#xd;
+        	&quot;piece&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;delete&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;piece&quot;: 3&#xd;
+        	}]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/piece/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="achievement" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;sync&quot;: {&#xd;
+        &quot;prop&quot;: [&#xd;
+            {&#xd;
+                &quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;num&quot;: 4&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;vary&quot;: &#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;exp&quot;: 50,&#xd;
+                &quot;age&quot;: 50,&#xd;
+                &quot;gold&quot;: 50,&#xd;
+                &quot;diamond&quot;: 50,&#xd;
+                &quot;strength&quot;: 50,&#xd;
+                &quot;bone&quot;: 50&#xd;
+            },&#xd;
+        &quot;friend&quot;: [&#xd;
+            {&#xd;
+                &quot;uid&quot;: 45,&#xd;
+                &quot;fuid&quot;: 56&#xd;
+            }&#xd;
+        ],&#xd;
+        &quot;pet&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 2,&#xd;
+                &quot;level&quot;: 3&#xd;
+        	}],&#xd;
+        &quot;tech&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;level&quot;: 4&#xd;
+        	}],&#xd;
+        	&quot;piece&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;delete&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;piece&quot;: 3&#xd;
+        	}],&#xd;
+        	&quot;achievement&quot;:[{&#xd;
+        	&quot;mark&quot;: &quot;insert&quot;,&#xd;
+                &quot;uid&quot;: 46,&#xd;
+                &quot;id&quot;: 3,&#xd;
+                &quot;status&quot;: 2&#xd;
+        	}]&#xd;
+    }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/achievement/sync</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="sync" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;uid&quot;:45,&#xd;
+	&quot;sign&quot;:&quot;75020761548ab62b78af91c277453478&quot;,&#xd;
+	&quot;value&quot;:{&quot;userFeedBack&quot;:{&#xd;
+  &quot;content&quot;:&quot;123&quot;,&#xd;
+&quot;contacts&quot;:&quot;123456&quot;&#xd;
+	},&#xd;
+&quot;sync&quot;:{&quot;loginaward&quot;:{&quot;award&quot;:true},&quot;prop&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;id&quot;:5,&quot;num&quot;:5}],&quot;vary&quot;:{&quot;exp&quot;:50,&quot;age&quot;:50,&quot;gold&quot;:50,&quot;diamond&quot;:60,&quot;strength&quot;:60,&quot;bone&quot;:60},&quot;friend&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;fuid&quot;:49}],&quot;pet&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;id&quot;:4,&quot;level&quot;:4}],&quot;tech&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;id&quot;:4,&quot;level&quot;:4}],&quot;piece&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;id&quot;:4,&quot;piece&quot;:4}],&quot;achievement&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;id&quot;:5,&quot;status&quot;:5}]}}&#xd;
+}&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP请求" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&quot;sync&quot;:{&quot;loginaward&quot;:{&quot;uid&quot;:45,&quot;award&quot;:true},&quot;prop&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:45,&quot;id&quot;:4,&quot;num&quot;:4}],&quot;vary&quot;:{&quot;uid&quot;:45,&quot;exp&quot;:60,&quot;age&quot;:60,&quot;gold&quot;:60,&quot;diamond&quot;:60,&quot;strength&quot;:60,&quot;bone&quot;:60},&quot;friend&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:46,&quot;fuid&quot;:47}],&quot;pet&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:45,&quot;id&quot;:3,&quot;level&quot;:3}],&quot;tech&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:46,&quot;id&quot;:3,&quot;level&quot;:7}],&quot;piece&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:46,&quot;id&quot;:3,&quot;piece&quot;:7}],&quot;achievement&quot;:[{&quot;mark&quot;:&quot;insert&quot;,&quot;uid&quot;:47,&quot;id&quot;:2,&quot;status&quot;:6}]}}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="ceshi" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{     &#xd;
+	&quot;login&quot;:{&quot;type&quot;:0,&quot;uid&quot;:45,&quot;password&quot;:123}&#xd;
+	}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="addfriend" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;getRecommendFriendList&quot;:{&quot;uid&quot;:45}&#xd;
+	}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/parkour/controller</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

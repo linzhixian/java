@@ -1,0 +1,16 @@
+package com.funugame.parkour.api.beans;
+
+public enum Platform {
+
+    SELF_PLATFORM(0), QQ_PLATFORM(1);
+
+    private final int value;
+
+    Platform(int value) {
+	this.value = value;
+    }
+
+    public int getValue() {
+	return value;
+    }
+}

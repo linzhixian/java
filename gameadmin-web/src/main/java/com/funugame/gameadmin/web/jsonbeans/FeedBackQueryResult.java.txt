@@ -1,0 +1,31 @@
+package com.funugame.gameadmin.web.jsonbeans;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserFeedBack;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public class FeedBackQueryResult extends ResponseBase{
+
+    private static final long serialVersionUID = 1L;
+
+    private List<UserFeedBack> rows;
+    private int total;
+    
+    public List<UserFeedBack> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<UserFeedBack> rows) {
+        this.rows = rows;
+        this.total=this.rows.size();
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+}

@@ -1,0 +1,28 @@
+package com.funugame.parkour.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.funugame.parkour.api.daoentity.RecommendFriend;
+import com.funugame.parkour.api.daoentity.UserFriend;
+
+public interface UserFriendMapper extends BaseMapper<UserFriend> {
+    public List<UserFriend> selectFriend(Integer uid);
+
+    public List<UserFriend> selectUserFriend(UserFriend uf);
+
+    public List<UserFriend> recommendFriend(@Param("uid") int uid, @Param("exp") int exp);
+
+    public RecommendFriend recommendFriendProperty(@Param("uid") int uid);
+
+    int selectCount(@Param("uid") int uid);
+
+    void insertFriend(@Param("uid") int uid,@Param("fuid") int fuid);
+
+    void deleteFriend(UserFriend uf);
+
+    public int updateFriendMatchResult(@Param("uid") int uid, @Param("fuid") int fuid, @Param("result") int result);
+
+    public void clearAllResult();
+}

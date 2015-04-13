@@ -1,0 +1,57 @@
+package com.funugame.gameadmin.web.command;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.gameadmin.web.jsonbeans.FeedBackQuery;
+import com.funugame.gameadmin.web.jsonbeans.FeedBackQueryResult;
+import com.funugame.gameadmin.web.jsonbeans.FeedBackReply;
+import com.funugame.gameadmin.web.jsonbeans.FeedBackUpdate;
+import com.funugame.parkour.api.IUserFeedBackService;
+import com.funugame.parkour.api.daoentity.UserFeedBack;
+import com.lzx.framework.web.springjson.annotation.CheckRight;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@WebCommand
+@Service
+@Lazy
+public class FeedbackCommands {
+
+    @Autowired
+    private IUserFeedBackService userFeedBackService;
+    
+    @CheckRight()
+    @WebAction(name = "queryFeedBack")
+    public FeedBackQueryResult queryFeedBack(FeedBackQuery request) {
+	FeedBackQueryResult r = new FeedBackQueryResult();
+	List<UserFeedBack> rows;
+	rows = userFeedBackService.queryList(request.getTimeFrom(), request.getTimeTo(), request.getReply(),request.getDevicetype());
+	r.setCode(ResponseBase.SUCCESS);
+	r.setRows(rows);
+
+	return r;
+    }
+
+    @WebAction(name = "feedBackUpdate")
+    public ResponseBase feedBackUpdate(FeedBackUpdate request) {
+	ResponseBase b = new ResponseBase();
+	List<FeedBackReply> rows = request.getRows();
+	try {
+	    for (FeedBackReply f : rows) {
+		userFeedBackService.updateReply(f.getId(), f.getUid(), f.getReply(), f.getRtime());
+	    }
+	    b.setCode(ResponseBase.SUCCESS);
+	} catch (Exception e) {
+	    b.setCode(ResponseBase.UNKONW_ERROR);
+	    e.printStackTrace();
+	}
+
+	return b;
+    }
+
+}

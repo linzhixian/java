@@ -1,0 +1,95 @@
+package com.funugame.parkour.api.configbeans;
+
+import java.util.Collection;
+
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class ExplevelConfig extends BaseConfig {
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    public static int MAXAGE = -1;
+
+    private int exp;
+    private float moneyPlusPer;
+    private float scorePlusPer;
+    private int maxStrength;
+    private int strengthRegenInterval;
+    private int strengthRegen;
+
+    public static ExplevelConfig getByAge(int id) {
+	return (ExplevelConfig) ALL.get(id);
+    }
+
+    public static int getAgeByExp(int exp) {
+	if (MAXAGE == -1) {
+	    initMaxAge();
+	}
+	int age = 0;
+	for (int i = 0; i <= MAXAGE; i++) {
+	    ExplevelConfig c = (ExplevelConfig) ALL.get(i);
+	    if (exp >= c.getExp()) {
+		age = c.getId();
+	    } else {
+		break;
+	    }
+	}
+	return age;
+    }
+
+    private static void initMaxAge() {
+	Collection<BaseConfig> cons = ALL.values();
+	for (BaseConfig b : cons) {
+	    if (b.getId() > MAXAGE) {
+		MAXAGE = b.getId();
+	    }
+	}
+    }
+
+    public int getExp() {
+	return exp;
+    }
+
+    public void setExp(int exp) {
+	this.exp = exp;
+    }
+
+    public float getMoneyPlusPer() {
+	return moneyPlusPer;
+    }
+
+    public void setMoneyPlusPer(float moneyPlusPer) {
+	this.moneyPlusPer = moneyPlusPer;
+    }
+
+    public float getScorePlusPer() {
+	return scorePlusPer;
+    }
+
+    public void setScorePlusPer(float scorePlusPer) {
+	this.scorePlusPer = scorePlusPer;
+    }
+
+    public int getStrengthRegenInterval() {
+	return strengthRegenInterval;
+    }
+
+    public void setStrengthRegenInterval(int strengthRegenInterval) {
+	this.strengthRegenInterval = strengthRegenInterval;
+    }
+
+    public int getStrengthRegen() {
+	return strengthRegen;
+    }
+
+    public void setStrengthRegen(int strengthRegen) {
+	this.strengthRegen = strengthRegen;
+    }
+
+    public int getMaxStrength() {
+	return maxStrength;
+    }
+
+    public void setMaxStrength(int maxStrength) {
+	this.maxStrength = maxStrength;
+    }
+
+}

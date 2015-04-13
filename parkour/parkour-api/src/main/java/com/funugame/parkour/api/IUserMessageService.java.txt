@@ -1,0 +1,23 @@
+package com.funugame.parkour.api;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.UserFeedBack;
+import com.funugame.parkour.api.daoentity.UserMessage;
+
+public interface IUserMessageService {
+    public List<UserMessage> getMessageList(Integer uid, Integer type);
+
+    public void insertAddFriendMessage(int uid, int fuid);
+
+    public void setUserFeedBackMessage(UserFeedBack ufb);
+
+    public Boolean deleteUserMessage(int id,int uid);
+
+    public void sendFeedBackReply(Integer uid, String msg);
+    
+    public boolean sendSystemUserMessage(Integer uid,String msg);
+
+    public void sendSubSceneRankMsg(Integer uid,int sceneid, int rank, int score, String time);
+
+}

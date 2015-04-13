@@ -1,0 +1,5 @@
+所有項目為UTF-8格式
+
+设置统一文件格式，是为了format时能够一致，开发过程中，养成随手：Ctrl+Shift+F 的習慣
+1)导入eclipse java formatter:Eclipse->Window->Preferences->java->Code Style->Formatter->Import: 选择文件：eclipseformt/mars-format.xml
+2)Eclipse->Window->Preferences->XML->Xml Files->Editor->Line width:设置为170

@@ -1,0 +1,16 @@
+package com.funugame.parkour.api;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.MatchUser;
+
+/**
+ * 挑战进阶service
+ * @author linzhixian 2014年11月20日上午10:04:48
+ *
+ */
+public interface IMatchService {
+    public List<MatchUser> getMathUserList(int uid, int chapterid);
+
+    public List<MatchUser> reGenerateMatchUserList(int uid, int chapterid);
+}

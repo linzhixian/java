@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.funugame.parkour.api.daoentity.User" alias="User" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserInfo" alias="UserInfo" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserVary" alias="UserVary" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserPet" alias="UserPet" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserProp" alias="UserProp" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserTech" alias="UserTech" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.BestScore" alias="BestScore" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserAchievement" alias="UserAchievement" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserPiece" alias="UserPiece" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserFriend" alias="UserFriend" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.UserProp" alias="userProp" />
+		<typeAlias type="com.funugame.parkour.api.daoentity.ScoreRankUser" alias="ScoreRankUser" />
+
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mapper/UserInfoMapper.xml" />
+		<mapper resource="mapper/UserVaryMapper.xml" />
+		<mapper resource="mapper/UserLastLoginTimeMapper.xml" />
+		<mapper resource="mapper/UserPetMapper.xml" />
+		<mapper resource="mapper/UserPropMapper.xml" />
+		<mapper resource="mapper/UserTechMapper.xml" />
+		<mapper resource="mapper/UserBestScoreMapper.xml" />
+		<mapper resource="mapper/UserAchievementMapper.xml" />
+		<mapper resource="mapper/UserPieceMapper.xml" />
+		<mapper resource="mapper/UserFriendMapper.xml" />
+	</mappers>
+</configuration>

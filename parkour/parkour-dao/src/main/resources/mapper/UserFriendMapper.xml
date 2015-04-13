@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserFriendMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="2048" />
+
+	<select id="recommendFriend" parameterType="hashmap" resultType="UserFriend">
+		select c.uid from (select * from ((select uid,exp from user_vary where exp&gt;#{exp} ORDER BY exp
+		asc limit 0,50) union ((select uid,exp from user_vary where exp&lt;#{exp} ORDER BY exp desc limit 0,50)) ORDER BY exp desc ) as a) as c
+		left join
+		(select * from (select
+		fuid from user_friend where uid=#{uid}) as b ) as d on c.uid=d.fuid where d.fuid is null
+
+	</select>
+	<select id="recommendFriendProperty" parameterType="int" resultType="RecommendFriend">
+		select uv.uid,uv.age,uv.cuplevel,uf.rolename,uf.figureurl_qq,ub.totalscore from user_vary as
+		uv
+		LEFT JOIN
+		user_info as uf on uv.uid=uf.id
+		LEFT JOIN
+		user_bestscore as ub on
+		uv.uid=ub.uid
+		where uv.uid=#{uid}
+	</select>
+
+	<select id="selectFriend" resultType="UserFriend">
+		select * from user_friend
+		<where>
+			uid=#{uid}
+		</where>
+
+	</select>
+	<select id="selectUserFriend" parameterType="UserFriend" resultType="UserFriend">
+		select uid,fuid from user_friend
+		<where>
+			uid=#{uid}
+			<if test="fuid!=null"> and fuid=#{fuid}</if>
+		</where>
+
+	</select>
+
+	<select id="selectCount" parameterType="int" resultType="int">
+		select count(*) as count from user_friend where uid=#{uid}
+	</select>
+
+	<insert id="insertFriend" parameterType="hashmap">
+		INSERT INTO
+		user_friend(uid,fuid)
+		values(#{uid},#{fuid})
+	</insert>
+	<delete id="deleteFriend" parameterType="UserFriend">
+		delete from user_friend where uid=#{uid} and fuid=#{fuid};
+	</delete>
+
+	<update id="updateFriendMatchResult" parameterType="UserFriend">
+		UPDATE user_friend
+		<set>
+			result=#{result}
+		</set>
+		<where>
+			uid = #{uid} and
+			fuid=#{fuid} and
+			result=0
+		</where>
+	</update>
+	
+	
+	<update id="clearAllResult" >
+	   update user_friend set result=0 where result!=0;
+	</update>
+</mapper>

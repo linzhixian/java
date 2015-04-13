@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserFriendMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="2048" />
+
+	<resultMap type="UserFriend" id="UserFriendMap">
+			<result property="uid" column="uid" />
+			<result property="fuid" column="fuid"/>
+	</resultMap>
+	<resultMap type="UserFriend" id="AllFriend">
+			<result property="fuid" column="id" />
+			<result property="rolename" column="rolename"/>
+	</resultMap>
+	
+	<select id="selectFriend" resultMap="UserFriendMap">
+		select uid,fuid from user_friend
+		<where>
+			uid=#{uid} 
+		</where>
+
+	</select>
+	<select id="selectUserFriend" parameterType="UserFriend" resultType="UserFriend">
+		select uid,fuid from user_friend
+		<where>
+			uid=#{uid}  and fuid=#{fuid}
+		</where>
+
+	</select>
+
+	<select id="selectAllFriend" resultMap="AllFriend">
+		select id,rolename from user_info
+		<where>
+			id=${fuid}
+		</where>
+	</select>
+	<insert id="insertFriend" parameterType="UserFriend">
+		INSERT INTO
+		user_friend(uid,fuid)
+		value(#{uid},#{fuid})
+	</insert>
+	<delete id="deleteFriend" parameterType="UserFriend">
+		delete from user_friend where uid=#{uid} and fuid=#{fuid};
+	</delete>
+
+</mapper>

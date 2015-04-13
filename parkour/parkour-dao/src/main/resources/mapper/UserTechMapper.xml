@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funugame.parkour.dao.UserTechMapper">
+	<cache eviction="LRU" flushInterval="86400000" size="6144" readOnly="true" />
+
+
+
+	<insert id="insert" parameterType="UserTech">
+		INSERT INTO
+		user_tech(uid,id,level)
+		value(#{uid},#{id},#{level});
+
+	</insert>
+	<update id="update" parameterType="UserTech">
+		UPDATE user_tech
+		<set>
+			<if test="level != null">level = #{level},</if>
+		</set>
+		WHERE uid = #{uid} and id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="UserTech">
+		delete from user_tech WHERE uid = #{uid} and id=#{id}
+	</delete>
+	<select id="selectList" parameterType="int" resultType="UserTech">
+		select *
+		from user_tech where uid=#{uid}
+	</select>
+<select id="selectTechList" parameterType="UserTech" resultType="UserTech">
+		select *
+		from user_tech 
+		<where>
+		uid=#{uid}
+		<if test="id != null">  and id=#{id}</if>
+		</where>
+	</select>
+
+
+
+
+</mapper>

@@ -1,0 +1,70 @@
+package com.funugame.gameadmin.web.command;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.funugame.gameadmin.web.gameadmin.DataGridResult;
+import com.funugame.parkour.api.IUserService;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserProp;
+import com.lzx.framework.web.springjson.annotation.WebAction;
+import com.lzx.framework.web.springjson.annotation.WebCommand;
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+@WebCommand
+@Service
+@Lazy
+public class PropAssignCommons {
+    @Autowired
+    private IUserService userService;
+
+    @WebAction(name = "userPropAssign")
+    public DataGridResult userPropAssign(List<UserProp> list) {
+	List<UserProp> assignList = new ArrayList<UserProp>();
+	DataGridResult r = new DataGridResult();
+	try {
+	    for (UserProp up : list) {
+		UserInfo uiInfo = new UserInfo();
+		uiInfo.setId(up.getUid());
+		try {
+		    uiInfo = userService.selectUserInfoId(uiInfo);
+		    if (uiInfo != null) {
+			if (up.getUid() != null && up.getNum() != null && up.getId() != null) {
+
+			    List<UserProp> list2 = userService.selectPropList(up);
+			    if (list2.size() > 0) {
+				UserProp userProp=list2.get(0);
+				Integer propnum=userProp.getNum();
+				propnum+=up.getNum();
+				up.setNum(propnum);
+				userService.updatePropList(up);
+				assignList.add(up);
+			    } else if (list2.size() == 0) {
+				userService.insertPropList(up);
+				assignList.add(up);
+			    }
+			}
+		    } else {
+			r.setCode(ResponseBase.EXIST);
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	r = new DataGridResult(assignList.size(), assignList);
+	if (assignList.size() > 0) {
+	    r.setCode(ResponseBase.SUCCESS);
+	} else if (assignList.size() <= 0) {
+	    r.setCode(ResponseBase.EXIST);
+	}
+
+	return r;
+    }
+}

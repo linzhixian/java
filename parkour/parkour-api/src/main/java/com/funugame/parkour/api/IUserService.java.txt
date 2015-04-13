@@ -1,0 +1,97 @@
+package com.funugame.parkour.api;
+
+import java.util.List;
+
+import com.funugame.parkour.api.daoentity.DiamondRecord;
+import com.funugame.parkour.api.daoentity.Notice;
+import com.funugame.parkour.api.daoentity.UserAchievement;
+import com.funugame.parkour.api.daoentity.UserFriend;
+import com.funugame.parkour.api.daoentity.UserInfo;
+import com.funugame.parkour.api.daoentity.UserPet;
+import com.funugame.parkour.api.daoentity.UserPiece;
+import com.funugame.parkour.api.daoentity.UserProp;
+import com.funugame.parkour.api.daoentity.UserTech;
+import com.funugame.parkour.api.daoentity.UserVary;
+import com.funugame.parkour.api.jsonbeans.GameResult;
+import com.funugame.parkour.api.jsonbeans.Login;
+import com.funugame.parkour.api.jsonbeans.LoginResult;
+import com.funugame.parkour.api.jsonbeans.SubmitGameResultResponse;
+
+public interface IUserService {
+
+    public LoginResult loginOrRegister(Login login);
+
+    public boolean updateRoleName(Integer uid, String roleName);
+
+    public List<UserPet> getPets(Integer uid);
+
+    public List<UserProp> getProps(Integer uid);
+
+    /**
+     * 测试用例
+     */
+    public UserInfo selectUserInfoId(UserInfo u);
+
+    void insertUserInfo(UserInfo u);
+
+    public UserVary selectIdList(int id);
+
+    void updateVary(UserVary uVary);
+
+    public List<UserPet> selectPetList(UserPet ut);
+
+    public List<UserProp> selectPropList(UserProp ut);
+
+    public void updatePropList(UserProp ut);
+
+    public void insertPropList(UserProp ut);
+
+    public List<UserTech> selectTechList(UserTech ut);
+
+    public List<UserPiece> selectPieceList(Integer uid, Integer id);
+
+    public List<UserAchievement> selectAchievementList(UserAchievement ua);
+
+    public List<UserFriend> selectFriendList(UserFriend uf);
+
+    public List<Notice> selectNotice(Notice nt);
+
+    /**
+     * 
+     */
+
+    public UserVary getUserVary(Integer uid);
+
+    public List<UserTech> getTech(Integer uid);
+
+    public SubmitGameResultResponse submitRunResult(GameResult result);
+
+    List<UserAchievement> getAchievement(int uid);
+
+    int updateAchievement(int uid, int id, int status);
+
+    public List<UserPiece> getUserPiece(int uid);
+
+    public UserPiece getUserPiece(int uid, int id);
+
+    void updateUser(UserInfo u);
+
+    void deleteUser(UserInfo u);
+
+    public String getMd5Key(Integer uid);
+
+    List<UserInfo> gameSelectUserInfoId(UserInfo ui);
+
+    List<UserProp> selectGamePropList(UserProp prop);
+
+    int insertNoticeList(Notice nt);
+
+    int deleteNoticeList(Notice nt);
+    
+    public int updateNoticeList(Notice nt);
+
+    List<Notice> selectNoticeList(Notice nt);
+
+    List<DiamondRecord> selectDiamondRecordList(DiamondRecord dr);
+
+}

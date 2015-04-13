@@ -1,0 +1,21 @@
+package com.funugame.gameadmin.web.daoentity;
+
+import java.util.Timer;
+
+import com.lzx.framework.rmi.RMIService;
+import com.lzx.framework.server.rmi.RmiServer;
+
+public class DataCenterServer extends RmiServer {
+    	
+	private Timer timer = new Timer();
+	@Override
+	public void start() {
+		super.start();
+	}
+	public void setRmiHost(String host) {
+		RMIService.url = host;
+	}
+	public Timer getTimer() {
+	    return timer;
+	}
+}

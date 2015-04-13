@@ -1,0 +1,6 @@
+package org.parkour.service;
+
+public interface BaseDao<T> {  
+    T get(String id);  
+  
+} 

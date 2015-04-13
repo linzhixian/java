@@ -1,0 +1,54 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class UserFriend implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private Integer uid;
+    private Integer fuid;
+    private Integer result;// 好友挑战结果：0无，1胜利，2输
+    private Integer count;// 好友数量（<50）
+    private String mark;
+
+    public String getMark() {
+	return mark;
+    }
+
+    public void setMark(String mark) {
+	this.mark = mark;
+    }
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getFuid() {
+	return fuid;
+    }
+
+    public void setFuid(Integer fuid) {
+	this.fuid = fuid;
+    }
+
+    public Integer getResult() {
+	return result;
+    }
+
+    public void setResult(Integer result) {
+	this.result = result;
+    }
+
+    public Integer getCount() {
+	return count;
+    }
+
+    public void setCount(Integer count) {
+	this.count = count;
+    }
+
+}

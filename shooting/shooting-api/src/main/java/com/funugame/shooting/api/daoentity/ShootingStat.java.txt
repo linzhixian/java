@@ -1,0 +1,57 @@
+package com.funugame.shooting.api.daoentity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class ShootingStat implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer cid;
+    private Integer wincount;
+    private Integer failcount;
+    private String sdate;
+
+    private int uid;
+
+    public Integer getCid() {
+	return cid;
+    }
+
+    public void setCid(Integer cid) {
+	this.cid = cid;
+    }
+
+    public Integer getWincount() {
+	return wincount;
+    }
+
+    public void setWincount(Integer wincount) {
+	this.wincount = wincount;
+    }
+
+    public Integer getFailcount() {
+	return failcount;
+    }
+
+    public void setFailcount(Integer failcount) {
+	this.failcount = failcount;
+    }
+
+    @JsonIgnore
+    public String getSdate() {
+	return sdate;
+    }
+
+    public void setSdate(String sdate) {
+	this.sdate = sdate;
+    }
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+}

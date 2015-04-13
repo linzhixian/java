@@ -1,0 +1,53 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+
+public class UserTestActivity implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer uid;
+    private Integer aid;
+    private Integer result;
+    private Integer currentprogress;
+    private Integer targetprogress;
+
+    public Integer getUid() {
+	return uid;
+    }
+
+    public void setUid(Integer uid) {
+	this.uid = uid;
+    }
+
+    public Integer getAid() {
+	return aid;
+    }
+
+    public void setAid(Integer aid) {
+	this.aid = aid;
+    }
+
+    public Integer getResult() {
+	return result;
+    }
+
+    public void setResult(Integer result) {
+	this.result = result;
+    }
+
+    public Integer getCurrentprogress() {
+	return currentprogress;
+    }
+
+    public void setCurrentprogress(Integer currentprogress) {
+	this.currentprogress = currentprogress;
+    }
+
+    public Integer getTargetprogress() {
+	return targetprogress;
+    }
+
+    public void setTargetprogress(Integer targetprogress) {
+	this.targetprogress = targetprogress;
+    }
+
+}

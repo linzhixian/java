@@ -1,0 +1,33 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class UserFriendMatchCount implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    private Integer uid;
+    private Integer count;
+    private Date lastupdatetime;
+    
+    public Integer getUid() {
+        return uid;
+    }
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+    public Integer getCount() {
+        return count;
+    }
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+    public Date getLastupdatetime() {
+        return lastupdatetime;
+    }
+    public void setLastupdatetime(Date lastupdatetime) {
+        this.lastupdatetime = lastupdatetime;
+    }
+
+}

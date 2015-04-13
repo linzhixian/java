@@ -1,0 +1,15 @@
+package com.funugame.parkour.api.jsonbeans;
+
+import com.lzx.framework.web.springjson.beans.ResponseBase;
+
+public class UpdateRoleNameResult extends ResponseBase {
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+}

@@ -1,0 +1,48 @@
+package com.funugame.parkour.api.configbeans;
+
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class TestActivityConfig extends BaseConfig {
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    private String desc;
+    private int petid;
+    private int piecenum;
+    private int progress;
+
+    public static TestActivityConfig getById(int id) {
+	return (TestActivityConfig) ALL.get(id);
+    }
+
+    public String getDesc() {
+	return desc;
+    }
+
+    public void setDesc(String desc) {
+	this.desc = desc;
+    }
+
+    public int getPetid() {
+	return petid;
+    }
+
+    public void setPetid(int petid) {
+	this.petid = petid;
+    }
+
+    public int getPiecenum() {
+	return piecenum;
+    }
+
+    public void setPiecenum(int piecenum) {
+	this.piecenum = piecenum;
+    }
+
+    public int getProgress() {
+	return progress;
+    }
+
+    public void setProgress(int progress) {
+	this.progress = progress;
+    }
+
+}

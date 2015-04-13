@@ -1,0 +1,240 @@
+package com.funugame.parkour.api.daoentity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int id;
+    private String account;
+    private String password;
+    private String rolename;
+    private String md5key;
+
+    private int exp;
+    private int age;
+    private int gold;
+    private int diamond;
+    private int strength;
+
+    private String openid;
+    private String qqname;
+    private String figureurl_qq;
+    private Date seal_time; // 账号封停时间
+
+    private int rank;
+    private long nextranktime;// 下次总榜开奖时间
+    private int bone;
+    private int cup;
+    private int cuplevel;
+    private int techpoint;
+    private int daynum; // 登陆天数（1——7）
+    private Boolean isaward;
+    private int totalrunnum;
+
+    public Boolean getIsaward() {
+	return isaward;
+    }
+
+    public void setIsaward(Boolean isaward) {
+	this.isaward = isaward;
+    }
+
+    public int getDaynum() {
+	return daynum;
+    }
+
+    public void setDaynum(int daynum) {
+	this.daynum = daynum;
+    }
+
+    private boolean isNew;
+
+    public User() {
+
+    }
+
+    public User(Integer id, String password) {
+	this.id = id;
+	this.password = password;
+    }
+
+    public String getAccount() {
+	return account;
+    }
+
+    public void setAccount(String account) {
+	this.account = account;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
+    }
+
+    public String getRolename() {
+	return rolename;
+    }
+
+    public void setRolename(String rolename) {
+	this.rolename = rolename;
+    }
+
+    public int getExp() {
+	return exp;
+    }
+
+    public void setExp(int exp) {
+	this.exp = exp;
+    }
+
+    public int getAge() {
+	return age;
+    }
+
+    public void setAge(int age) {
+	this.age = age;
+    }
+
+    public int getGold() {
+	return gold;
+    }
+
+    public void setGold(int gold) {
+	this.gold = gold;
+    }
+
+    public int getDiamond() {
+	return diamond;
+    }
+
+    public void setDiamond(int diamond) {
+	this.diamond = diamond;
+    }
+
+    public int getStrength() {
+	return strength;
+    }
+
+    public void setStrength(int strength) {
+	this.strength = strength;
+    }
+
+    public int getRank() {
+	return rank;
+    }
+
+    public void setRank(int rank) {
+	this.rank = rank;
+    }
+
+    public int getBone() {
+	return bone;
+    }
+
+    public void setBone(int bone) {
+	this.bone = bone;
+    }
+
+    public int getCup() {
+	return cup;
+    }
+
+    public void setCup(int cup) {
+	this.cup = cup;
+    }
+
+    public int getCuplevel() {
+	return cuplevel;
+    }
+
+    public void setCuplevel(int cuplevel) {
+	this.cuplevel = cuplevel;
+    }
+
+    public boolean isNew() {
+	return isNew;
+    }
+
+    public void setNew(boolean isNew) {
+	this.isNew = isNew;
+    }
+
+    public String getMd5key() {
+	return md5key;
+    }
+
+    public void setMd5key(String md5key) {
+	this.md5key = md5key;
+    }
+
+    public int getId() {
+	return id;
+    }
+
+    public void setId(int id) {
+	this.id = id;
+    }
+
+    public String getOpenid() {
+	return openid;
+    }
+
+    public void setOpenid(String openid) {
+	this.openid = openid;
+    }
+
+    public String getFigureurl_qq() {
+	return figureurl_qq;
+    }
+
+    public void setFigureurl_qq(String figureurl_qq) {
+	this.figureurl_qq = figureurl_qq;
+    }
+
+    public String getQqname() {
+	return qqname;
+    }
+
+    public void setQqname(String qqname) {
+	this.qqname = qqname;
+    }
+
+    public int getTechpoint() {
+	return techpoint;
+    }
+
+    public void setTechpoint(int techpoint) {
+	this.techpoint = techpoint;
+    }
+
+    public int getTotalrunnum() {
+	return totalrunnum;
+    }
+
+    public void setTotalrunnum(int totalrunnum) {
+	this.totalrunnum = totalrunnum;
+    }
+
+    public long getNextranktime() {
+	return nextranktime;
+    }
+
+    public void setNextranktime(long nextranktime) {
+	this.nextranktime = nextranktime;
+    }
+
+    public Date getSeal_time() {
+	return seal_time;
+    }
+
+    public void setSeal_time(Date seal_time) {
+	this.seal_time = seal_time;
+    }
+
+}

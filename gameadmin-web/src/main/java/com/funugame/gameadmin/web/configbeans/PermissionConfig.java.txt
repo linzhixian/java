@@ -1,0 +1,39 @@
+package com.funugame.gameadmin.web.configbeans;
+
+import java.io.Serializable;
+
+import com.funugame.parkour.api.configbeans.BaseConfig;
+import com.lzx.framework.utils.collection.IntHashMap;
+
+public class PermissionConfig extends BaseConfig implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public static IntHashMap<BaseConfig> ALL = new IntHashMap<BaseConfig>();
+    private String key;
+    private String name;
+    private int parent;
+    
+    public static PermissionConfig getById(int id) {
+	return (PermissionConfig) ALL.get(id);
+    }
+    
+    public String getKey() {
+        return key;
+    }
+    public void setKey(String key) {
+        this.key = key;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getParent() {
+        return parent;
+    }
+    public void setParent(int parent) {
+        this.parent = parent;
+    }
+    
+
+}
