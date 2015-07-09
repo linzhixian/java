@@ -1,6 +1,0 @@
-	配置key	值	说明
-id	key	value	desc
-1	max_friendMatch	10	当天好友挑战最大次数
-2	friendMatchWin_award	3	好友挑战获胜奖励体力值
-3	friendMatchFail_award	1	好友挑战失败奖励体力值
-4	max_friendnum	50	 最多好友数量

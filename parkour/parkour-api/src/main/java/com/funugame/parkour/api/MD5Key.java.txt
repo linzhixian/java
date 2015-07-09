@@ -1,5 +1,0 @@
-package com.funugame.parkour.api;
-
-public class MD5Key {
-    public static String KEY = "{ireu$3048grM*ps}";
-}

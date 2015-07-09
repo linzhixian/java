@@ -1,5 +1,0 @@
-package com.funugame.gameadmin.web.jsonbeans;
-
-public class CheckLogin {
-
-}
